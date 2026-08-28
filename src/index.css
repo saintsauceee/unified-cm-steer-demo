@@ -3,6 +3,7 @@
   --bg: #fafafa; --fg: #1a1a1a; --muted: #6b6b6b; --line: #dedede; --panel: #ffffff;
   --pos: #b45309; --pos-bg: #fde68a; --neg: #1d4ed8; --neg-bg: #bfdbfe; --base: #059669;
   --ring: #059669;
+  --grid-w: 1030px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 14px; line-height: 1.45;
 }
@@ -17,7 +18,7 @@ html, body { margin: 0; background: var(--bg); color: var(--fg); }
 a { color: inherit; }
 code { font-size: 0.85em; }
 
-.app { max-width: 1600px; margin: 0 auto; padding: 16px 24px 40px; }
+.app { width: var(--grid-w); max-width: 100%; margin: 0 auto; padding: 16px 0 40px; }
 header h1 { margin: 0; font-size: 1.4rem; }
 header .sub { margin: 4px 0 12px; color: var(--muted); }
 footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: break-all; }
@@ -25,7 +26,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .controls {
   display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end;
   padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
-  position: sticky; top: 8px; z-index: 5; margin-bottom: 14px;
+  position: sticky; top: 8px; z-index: 5; margin-bottom: 14px; width: 100%;
 }
 .controls label { display: flex; flex-direction: column; gap: 3px; font-size: 0.8rem; color: var(--muted); }
 .controls select {
@@ -44,8 +45,8 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 
 /* ---------- image grid ---------- */
 .grid-wrap { display: flex; justify-content: center; }
-.grid-scroll { width: fit-content; max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 4px; }
-.image-grid { border-collapse: separate; border-spacing: 4px; table-layout: fixed; width: max-content; }
+.grid-scroll { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 4px; }
+.image-grid { border-collapse: separate; border-spacing: 4px; table-layout: fixed; width: max-content; margin: 0 auto; }
 .image-grid th { font-weight: 600; font-size: 0.75rem; color: var(--muted); text-align: center; white-space: nowrap; }
 .image-grid th.pos-col { color: var(--pos); }
 .image-grid th.neg-col { color: var(--neg); }
