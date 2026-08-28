@@ -100,3 +100,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .status { color: var(--muted); }
 .status.error { color: #dc2626; }
 
+
+.cache-status { display: inline-block; margin-top: 4px; }
+.cache-status button { font: inherit; font-size: 0.75rem; padding: 0 6px; border: 1px solid var(--line); border-radius: 4px;
+  background: var(--panel); color: var(--fg); cursor: pointer; }

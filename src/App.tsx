@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Controls, type PromptSel } from './components/Controls'
 import { ImageGrid } from './components/ImageGrid'
 import { TextView } from './components/TextView'
+import { CacheStatus } from './components/CacheStatus'
 import { useFetchJson } from './lib/useFetchJson'
 import {
   CONCEPTS, LAYER_CONFIGS, QUADRANTS, isImageQuad, promptSheetUrl, HF_BASE,
@@ -63,7 +64,8 @@ export default function App() {
           : <TextView concept={sel.concept} quad={sel.quad} config={sel.config} prompt={prompt as number} />}
       </main>
       <footer>
-        Files resolved from <code>{HF_BASE}</code>. Images load lazily per view; missing cells show a placeholder.
+        Files resolved from <code>{HF_BASE}</code>. Images load lazily per view and are cached on this device by a service worker; missing cells show a placeholder.
+        <br /><CacheStatus refreshKey={`${sel.quad}/${sel.concept}/${sel.config}/${prompt}`} />
       </footer>
     </div>
   )

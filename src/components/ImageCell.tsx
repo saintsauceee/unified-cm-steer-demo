@@ -1,31 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props { src: string; alt: string; isBaseline: boolean; onOpen: (src: string) => void }
 
-/** Lazy image: only sets `src` once scrolled near the viewport; shows a placeholder on 404. */
+/** Image cell: native lazy loading (only fetches near the viewport); placeholder on 404. */
 export function ImageCell({ src, alt, isBaseline, onOpen }: Props) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
   const [state, setState] = useState<'loading' | 'ok' | 'error'>('loading')
-
-  useEffect(() => {
-    setVisible(false); setState('loading')
-    const el = ref.current
-    if (!el) return
-    const io = new IntersectionObserver(
-      (entries) => { if (entries.some((e) => e.isIntersecting)) { setVisible(true); io.disconnect() } },
-      { rootMargin: '300px' },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [src])
+  useEffect(() => { setState('loading') }, [src])
 
   const cls = ['cell', isBaseline ? 'baseline' : '', state].join(' ')
   return (
-    <div ref={ref} className={cls} title={alt}>
-      {visible && state !== 'error' && (
+    <div className={cls} title={alt}>
+      {state !== 'error' && (
         <img
-          src={src} alt={alt} loading="lazy" decoding="async"
+          key={src}
+          src={src} alt={alt} loading="lazy" decoding="async" crossOrigin="anonymous"
           onLoad={() => setState('ok')} onError={() => setState('error')}
           onClick={() => onOpen(src)}
         />

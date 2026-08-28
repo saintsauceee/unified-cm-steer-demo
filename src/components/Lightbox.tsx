@@ -14,7 +14,7 @@ export function Lightbox({ src, caption, onClose }: Props) {
     <div className="lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label={caption}>
       <button className="lightbox-close" onClick={onClose} aria-label="Close (Esc)" autoFocus>×</button>
       <figure onClick={(e) => e.stopPropagation()}>
-        <img src={src} alt={caption} />
+        <img src={src} alt={caption} crossOrigin="anonymous" />
         <figcaption>
           {caption} · <a href={src} target="_blank" rel="noreferrer">open original</a>
         </figcaption>
