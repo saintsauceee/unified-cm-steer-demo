@@ -27,14 +27,14 @@ export const pid = (i: number) => `p${String(i).padStart(2, '0')}`
 
 // Image and text use different alpha grids.
 const IMAGE_MAGS = [0.01, 0.02, 0.03, 0.04, 0.05]
-const TEXT_MAGS = [0.04, 0.08, 0.12, 0.16, 0.2]
+const TEXT_MAGS = [0.05, 0.1, 0.15, 0.2, 0.25]
 const grid = (mags: number[]) => [
   ...[...mags].reverse().map((m) => -m),
   0,
   ...mags,
 ]
 export const IMAGE_ALPHAS = grid(IMAGE_MAGS) // -0.05 … 0 … +0.05
-export const TEXT_ALPHAS = grid(TEXT_MAGS) // -0.20 … 0 … +0.20
+export const TEXT_ALPHAS = grid(TEXT_MAGS) // -0.25 … 0 … +0.25
 export const alphasFor = (q: Quadrant) => (isImageQuad(q) ? IMAGE_ALPHAS : TEXT_ALPHAS)
 
 /** Format alpha as it appears in paths / cell keys: a+0.03, a-0.20 */
