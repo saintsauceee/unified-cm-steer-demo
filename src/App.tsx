@@ -41,7 +41,7 @@ export default function App() {
     if (location.hash !== h) history.replaceState(null, '', h)
   }, [sel, prompt])
 
-  const sheet = useFetchJson<PromptSheet>(promptSheetUrl(sel.concept))
+  const sheet = useFetchJson<PromptSheet>(promptSheetUrl(sel.concept, sel.quad))
   const promptLabels = sheet.status === 'ok' ? sheet.data.prompts : null
 
   return (

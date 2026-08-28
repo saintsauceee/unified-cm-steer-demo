@@ -67,8 +67,11 @@ export const imageUrl = (
 export const generationsUrl = (concept: Concept, quad: Quadrant) =>
   `${HF_BASE}/steered-gen/${groupOf(concept)}/${concept}/${quad}/generations.json`
 
-export const promptSheetUrl = (concept: Concept) =>
-  `${HF_BASE}/prompts/${concept}/${concept}_text.json`
+/** Image quadrants use the long descriptive image-gen sheet; text quadrants use the short text-gen sheet. */
+export const promptSheetUrl = (concept: Concept, quad: Quadrant) =>
+  isImageQuad(quad)
+    ? `${HF_BASE}/prompts/${concept}/${concept}.json`
+    : `${HF_BASE}/prompts/${concept}/${concept}_text.json`
 
 export interface Generations {
   prompts: string[]
