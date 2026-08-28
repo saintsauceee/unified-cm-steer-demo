@@ -32,7 +32,6 @@ export function ImageGrid({ concept, quad, config, prompt, promptLabels }: Props
               <tr key={p}>
                 <th className="rowhead" title={promptLabels?.[p] ?? ''}>
                   <div className="pid">{pid(p)}</div>
-                  {promptLabels?.[p] && <div className="ptext">{promptLabels[p]}</div>}
                 </th>
                 {IMAGE_ALPHAS.map((a) => {
                   const src = imageUrl(concept, quad, config, a, p)
