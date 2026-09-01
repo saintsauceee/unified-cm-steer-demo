@@ -20,7 +20,7 @@ function fromHash(): Sel {
   return {
     quad: pick('quad', QUADRANTS, 'img2img'),
     concept: pick('concept', CONCEPTS, 'emotion'),
-    config: pick('config', LAYER_CONFIGS, 'L16'),
+    config: pick('config', LAYER_CONFIGS, 'mid'),
     prompt,
   }
 }
