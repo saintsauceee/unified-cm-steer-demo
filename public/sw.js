@@ -1,11 +1,14 @@
 /* Service worker: persistent on-disk cache for Hugging Face dataset files.
    - PNGs: cache-first (immutable dataset images).
    - JSON: stale-while-revalidate (serve cached, refresh in background). */
-const CACHE = 'hf-steering-v1'
+const CACHE = 'hf-steering-v2'  // bumped for the alpha*v_hat re-run (new images + long prompts)
 const HF_PREFIX = 'https://huggingface.co/datasets/saintsauce/uniar-steering-eval/resolve/main/'
 
 self.addEventListener('install', () => self.skipWaiting())
-self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()))
+self.addEventListener('activate', (e) => e.waitUntil((async () => {
+  for (const k of await caches.keys()) if (k !== CACHE) await caches.delete(k)
+  await self.clients.claim()
+})()))
 
 self.addEventListener('fetch', (event) => {
   const url = event.request.url
