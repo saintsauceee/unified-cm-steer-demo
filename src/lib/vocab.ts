@@ -26,14 +26,14 @@ export const PROMPT_IDS = Array.from({ length: N_PROMPTS }, (_, i) => i)
 export const pid = (i: number) => `p${String(i).padStart(2, '0')}`
 
 // Image and text use different alpha grids (absolute alpha*v_hat magnitudes).
-const IMAGE_MAGS = [8, 16, 24, 32, 40]
+const IMAGE_MAGS = [6, 12, 18, 24, 30]
 const TEXT_MAGS = [12, 24, 36, 48, 60]
 const grid = (mags: number[]) => [
   ...[...mags].reverse().map((m) => -m),
   0,
   ...mags,
 ]
-export const IMAGE_ALPHAS = grid(IMAGE_MAGS) // -40 … 0 … +40
+export const IMAGE_ALPHAS = grid(IMAGE_MAGS) // -30 … 0 … +30
 export const TEXT_ALPHAS = grid(TEXT_MAGS) // -60 … 0 … +60
 export const alphasFor = (q: Quadrant) => (isImageQuad(q) ? IMAGE_ALPHAS : TEXT_ALPHAS)
 
