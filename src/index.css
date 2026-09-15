@@ -91,13 +91,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .alpha-row.base { border-left-color: var(--base); box-shadow: inset 0 0 0 1px var(--base); }
 .alpha-head { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; font-size: 0.8rem; color: var(--muted); }
 .alpha-head .cfg { font-family: ui-monospace, Menlo, monospace; }
-.alpha-head .counts { margin-left: auto; }
-.alpha-head .counts .pos { color: var(--pos); }
-.alpha-head .counts .neg { color: var(--neg); }
 .gen { margin: 0; white-space: pre-wrap; }
-.gen mark { border-radius: 3px; padding: 0 2px; color: inherit; }
-.gen mark.pos { background: var(--pos-bg); color: var(--pos); }
-.gen mark.neg { background: var(--neg-bg); color: var(--neg); }
 .missing { color: var(--muted); }
 .status { color: var(--muted); }
 .status.error { color: #dc2626; }
