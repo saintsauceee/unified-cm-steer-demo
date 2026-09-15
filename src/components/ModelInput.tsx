@@ -1,4 +1,5 @@
-import { pid, type Concept, type ModelInputs, type Quadrant } from '../lib/vocab'
+import type { ReactNode } from 'react'
+import { pid, type Concept, type ModelInputs, type Quadrant, type Tok } from '../lib/vocab'
 import type { PromptSel } from './Controls'
 
 interface Props {
@@ -9,6 +10,28 @@ interface Props {
 /** Placeholder for the tokens the model generates after the input (all of them are steered). */
 const Generated = ({ label }: { label: string }) =>
   <>{' '}<span className="tok-gen tok-steered" title="steered">[{label}]</span></>
+
+/** Tokens with each run of consecutive steered tokens merged into one highlight (surrounding whitespace kept outside it). */
+function renderTokens(toks: Tok[]): ReactNode[] {
+  const out: ReactNode[] = []
+  for (let i = 0; i < toks.length;) {
+    if (!toks[i][2]) {
+      out.push(<span key={i} className={`tok-${toks[i][1]}`}>{toks[i][0]}</span>)
+      i++
+      continue
+    }
+    let j = i, text = ''
+    while (j < toks.length && toks[j][2]) text += toks[j++][0]
+    const core = text.trim()
+    if (!core) out.push(<span key={i}>{text}</span>)
+    else {
+      const lead = text.slice(0, text.indexOf(core)), trail = text.slice(text.indexOf(core) + core.length)
+      out.push(<span key={i} className="tok-p">{lead}<span className="tok-steered" title="steered">{core}</span>{trail}</span>)
+    }
+    i = j
+  }
+  return out
+}
 
 const Legend = () =>
   <div className="mi-legend"><span className="tok-steered mi-swatch" aria-hidden="true" /> steered tokens</div>
@@ -44,8 +67,7 @@ export function ModelInput({ name, concept, quad, prompt, inputs, imagePrompts }
         <div className="mi-label">prompt</div>
         <pre>{toks
           ? <>
-              {toks.map(([t, kind, s], i) =>
-                <span key={i} className={`tok-${kind}${s ? ' tok-steered' : ''}`} title={s ? 'steered' : undefined}>{t}</span>)}
+              {renderTokens(toks)}
               <Generated label="generated tokens" />
             </>
           : <em className="missing">input not available</em>}
