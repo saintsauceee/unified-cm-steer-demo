@@ -120,7 +120,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .model-input pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: ui-monospace, Menlo, monospace;
   font-size: 0.8rem; line-height: 1.55; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); }
 .tok-gen { font-style: italic; color: var(--muted); }
-.tok-s { color: var(--muted); background: var(--line); border-radius: 3px; }
+.tok-s { color: var(--muted); font-weight: 700; }
 .tok-c { color: var(--muted); }
 .tok-p { color: var(--fg); }
 .tok-steered { color: var(--steer); background: var(--steer-bg); border-radius: 3px; box-shadow: inset 0 -2px 0 var(--steer); }

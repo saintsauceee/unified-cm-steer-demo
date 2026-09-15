@@ -8,7 +8,7 @@ interface Props {
 
 /** Placeholder for the tokens the model generates after the input; steered everywhere except the CFG unconditional stream. */
 const Generated = ({ label, steered }: { label: string; steered: boolean }) =>
-  <span className={`tok-gen${steered ? ' tok-steered' : ''}`} title={steered ? 'steered' : 'not steered'}>[{label}]</span>
+  <>{' '}<span className={`tok-gen${steered ? ' tok-steered' : ''}`} title={steered ? 'steered' : 'not steered'}>[{label}]</span></>
 
 /** Image template with special tokens set apart and `{prompt}` filled in (the image prompt itself is never steered). */
 function Template({ template, prompt }: { template: string; prompt: string | null }) {
