@@ -114,7 +114,8 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
   font-size: 0.85rem; line-height: 1.7; padding: 10px 12px; border-radius: 8px; background: var(--code-bg); color: var(--fg); }
 .tok-s { color: var(--fg); font-weight: 700; }
 .tok-c { color: var(--tmpl); }
-.tok-nl { color: var(--tmpl); font-weight: 700; margin: 0 2px; }
+.tok-nl { color: var(--tmpl); font-family: ui-monospace, Menlo, monospace; font-size: 0.8em; font-weight: 700;
+  background: var(--code-bg); border-radius: 3px; padding: 0 4px; margin: 0 3px; white-space: nowrap; }
 .tok-p { color: var(--fg); }
 .tok-gen { font-style: italic; }
 .tok-steered { color: var(--steer); background: var(--steer-bg); border-radius: 3px; padding: 1px 3px;

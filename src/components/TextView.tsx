@@ -1,5 +1,15 @@
+import type { ReactNode } from 'react'
 import { alphaLabel, alphaSign, textUrl, type Concept, type Generations, type ModelKey, type Quadrant } from '../lib/vocab'
 import { useFetchJson } from '../lib/useFetchJson'
+
+/** Each run of newlines (and the spaces around them) becomes one inline token, so degenerate outputs stay compact. */
+function compactNewlines(text: string): ReactNode[] {
+  return text.split(/(\s*\n\s*)/).map((part, i) => {
+    if (i % 2 === 0) return part
+    const n = (part.match(/\n/g) ?? []).length
+    return <span key={i} className="tok-nl" title={`${n} newline${n > 1 ? 's' : ''}`}>{n > 1 ? `\\n×${n}` : '\\n'}</span>
+  })
+}
 
 interface Props { model: ModelKey; concept: Concept; quad: Quadrant; config: string; alphas: string[]; prompt: number }
 
@@ -25,7 +35,7 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
               </div>
               <p className="gen">
                 {text
-                  ? text
+                  ? compactNewlines(text)
                   : text === '' ? <em className="missing">empty output</em> : <em className="missing">missing cell</em>}
               </p>
             </li>
