@@ -6,6 +6,10 @@ interface Props {
   inputs: ModelInputs; imagePrompts: string[] | null
 }
 
+/** Placeholder for the tokens the model generates after the input; steered everywhere except the CFG unconditional stream. */
+const Generated = ({ label, steered }: { label: string; steered: boolean }) =>
+  <span className={`tok-gen${steered ? ' tok-steered' : ''}`} title={steered ? 'steered' : 'not steered'}>[{label}]</span>
+
 /** Image template with special tokens set apart and `{prompt}` filled in (the image prompt itself is never steered). */
 function Template({ template, prompt }: { template: string; prompt: string | null }) {
   const pieces = (s: string, k: string) =>
@@ -35,11 +39,13 @@ export function ModelInput({ name, concept, quad, prompt, inputs, imagePrompts }
           <span className="mi-pid">{pid(p)}</span>
         </div>
         <pre>{toks
-          ? toks.map(([t, kind, s], i) => <span key={i} className={`tok-${kind}${s ? ' tok-steered' : ''}`}>{t}</span>)
+          ? <>
+              {toks.map(([t, kind, s], i) =>
+                <span key={i} className={`tok-${kind}${s ? ' tok-steered' : ''}`} title={s ? 'steered' : undefined}>{t}</span>)}
+              <Generated label="generated tokens" steered />
+            </>
           : <em className="missing">input not available</em>}
         </pre>
-        <p className="mi-note"><span className="chip steer">steered</span> {inputs.text.steered}</p>
-        <p className="mi-foot">{inputs.text.decoding}</p>
       </section>
     )
   }
@@ -51,15 +57,13 @@ export function ModelInput({ name, concept, quad, prompt, inputs, imagePrompts }
         {prompt !== 'all' && <span className="mi-pid">{pid(prompt)}</span>}
       </div>
       <div className="mi-label">conditional{prompt === 'all' ? ' · pick one prompt to see it filled in' : ''}</div>
-      <pre><Template template={inputs.image.cond} prompt={single} /></pre>
+      <pre><Template template={inputs.image.cond} prompt={single} /><Generated label="generated image tokens" steered /></pre>
       {inputs.image.uncond !== null && (
         <>
           <div className="mi-label">unconditional (classifier-free guidance)</div>
-          <pre><Template template={inputs.image.uncond} prompt={single} /></pre>
+          <pre><Template template={inputs.image.uncond} prompt={single} /><Generated label="generated image tokens" steered={false} /></pre>
         </>
       )}
-      <p className="mi-note"><span className="chip steer">steered</span> {inputs.image.steered}</p>
-      <p className="mi-foot">{inputs.image.decoding}</p>
     </section>
   )
 }

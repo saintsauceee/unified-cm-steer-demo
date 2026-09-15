@@ -119,8 +119,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .mi-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin: 8px 0 3px; }
 .model-input pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: ui-monospace, Menlo, monospace;
   font-size: 0.8rem; line-height: 1.55; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); }
-.mi-note { margin: 8px 0 0; font-size: 0.8rem; line-height: 1.45; }
-.mi-foot { margin: 4px 0 0; font-size: 0.78rem; color: var(--muted); }
+.tok-gen { font-style: italic; color: var(--muted); }
 .tok-s { color: var(--muted); background: var(--line); border-radius: 3px; }
 .tok-c { color: var(--muted); }
 .tok-p { color: var(--fg); }
