@@ -1,47 +1,42 @@
-export const HF_BASE =
-  'https://huggingface.co/datasets/saintsauce/uniar-steering-eval/resolve/main'
+// ---------- models: one public Hugging Face dataset repo each ----------
+export type ModelKey = 'uniar' | 'emu35' | 'liquid'
+export interface ModelInfo { key: ModelKey; name: string; repo: string }
+export const MODELS: ModelInfo[] = [
+  { key: 'uniar', name: 'UniAR', repo: 'saintsauce/unified-vlm-steering-uniar' },
+  { key: 'emu35', name: 'Emu3.5', repo: 'saintsauce/unified-vlm-steering-emu35' },
+  { key: 'liquid', name: 'Liquid', repo: 'saintsauce/unified-vlm-steering-liquid' },
+]
+export const MODEL_KEYS = MODELS.map((m) => m.key)
+export const modelInfo = (m: ModelKey) => MODELS.find((x) => x.key === m) ?? MODELS[0]
+export const repoPage = (m: ModelKey) => `https://huggingface.co/datasets/${modelInfo(m).repo}`
+export const repoBase = (m: ModelKey) => `${repoPage(m)}/resolve/main`
 
 export type Group = 'semantic' | 'visual'
 export type Concept =
   | 'emotion' | 'age' | 'cleanness' | 'chaos'
   | 'size' | 'near_far' | 'spatial_lr'
 export type Quadrant = 'img2img' | 'txt2img' | 'txt2txt' | 'img2txt'
-export type LayerConfig = 'L9' | 'L18' | 'L27' | 'early' | 'mid' | 'late' | 'all'
+export type ImageQuad = 'img2img' | 'txt2img'
 
 export const GROUPS: Record<Group, Concept[]> = {
   semantic: ['emotion', 'age', 'cleanness', 'chaos'],
   visual: ['size', 'near_far', 'spatial_lr'],
 }
 export const CONCEPTS: Concept[] = [...GROUPS.semantic, ...GROUPS.visual]
-export const groupOf = (c: Concept): Group =>
-  GROUPS.semantic.includes(c) ? 'semantic' : 'visual'
 
 export const QUADRANTS: Quadrant[] = ['img2img', 'txt2img', 'txt2txt', 'img2txt']
-export const isImageQuad = (q: Quadrant) => q === 'img2img' || q === 'txt2img'
-
-export const LAYER_CONFIGS: LayerConfig[] = ['L9', 'L18', 'L27', 'early', 'mid', 'late', 'all']
+export const isImageQuad = (q: Quadrant): q is ImageQuad => q === 'img2img' || q === 'txt2img'
 
 export const N_PROMPTS = 20
+export const THUMB_SIZES = [84, 140, 220] as const
+export type ThumbSize = (typeof THUMB_SIZES)[number]
 export const PROMPT_IDS = Array.from({ length: N_PROMPTS }, (_, i) => i)
 export const pid = (i: number) => `p${String(i).padStart(2, '0')}`
 
-// Image and text use different alpha grids (absolute alpha*v_hat magnitudes).
-const IMAGE_MAGS = [6, 12, 18, 24, 30]
-const TEXT_MAGS = [12, 24, 36, 48, 60]
-const grid = (mags: number[]) => [
-  ...[...mags].reverse().map((m) => -m),
-  0,
-  ...mags,
-]
-export const IMAGE_ALPHAS = grid(IMAGE_MAGS) // -30 … 0 … +30
-export const TEXT_ALPHAS = grid(TEXT_MAGS) // -60 … 0 … +60
-export const alphasFor = (q: Quadrant) => (isImageQuad(q) ? IMAGE_ALPHAS : TEXT_ALPHAS)
-
-/** Format alpha as it appears in paths / cell keys: a+24, a-16 */
-export const alphaKey = (a: number) =>
-  `a${a < 0 ? '-' : '+'}${Math.abs(a)}`
-export const alphaLabel = (a: number) =>
-  a === 0 ? 'baseline' : `${a > 0 ? '+' : '−'}${Math.abs(a)}`
+/** Alphas are the dataset's own strings (e.g. "-1.5", "10"); the sign sets the pole colour. */
+export const alphaSign = (a: string) => Math.sign(parseFloat(a))
+export const alphaLabel = (a: string) =>
+  alphaSign(a) === 0 ? 'baseline' : `${alphaSign(a) > 0 ? '+' : '−'}${a.replace('-', '')}`
 
 export const POLES: Record<Concept, { pos: string; neg: string }> = {
   emotion: { pos: 'happy', neg: 'sad' },
@@ -53,36 +48,25 @@ export const POLES: Record<Concept, { pos: string; neg: string }> = {
   spatial_lr: { pos: 'right', neg: 'left' },
 }
 
-// ---------- URLs ----------
-export const imageUrl = (
-  concept: Concept, quad: Quadrant, config: LayerConfig, alpha: number, prompt: number,
-) => {
-  const g = groupOf(concept)
-  const base = `${HF_BASE}/steered-gen/${g}/${concept}/${quad}`
-  return alpha === 0
-    ? `${base}/baseline512/${pid(prompt)}.png`
-    : `${base}/layer-setups/${config}/${alphaKey(alpha)}/${pid(prompt)}.png`
+// ---------- per-model viewer index files (viewer/ in each repo) ----------
+export interface LayerConfigInfo { key: string; layers: string }
+export interface ViewerIndex {
+  model: ModelKey; name: string; repo: string; n_prompts: number
+  concepts: Concept[]
+  configs: LayerConfigInfo[]
+  alphas: Record<Quadrant, string[]>
+  prompts: { image: Record<Concept, string[]>; text: Record<Concept, string[]> }
 }
-
-export const generationsUrl = (concept: Concept, quad: Quadrant) =>
-  `${HF_BASE}/steered-gen/${groupOf(concept)}/${concept}/${quad}/generations.json`
-
-/** Image quadrants use the long descriptive image-gen sheet; text quadrants use the short text-gen sheet. */
-export const promptSheetUrl = (concept: Concept, quad: Quadrant) =>
-  isImageQuad(quad)
-    ? `${HF_BASE}/prompts/${concept}/${concept}.json`
-    : `${HF_BASE}/prompts/${concept}/${concept}_text.json`
-
+/** Image paths relative to generations/: per quadrant "<config>|<alpha>" -> one path per prompt, plus alpha=0 baselines. */
+export type ImageMap = Record<ImageQuad, Record<string, string[]>> & { baseline: Record<ImageQuad, string[]> }
 export interface Generations {
+  concept: string; quadrant: string
   prompts: string[]
-  concept: string
-  sub: string
   baseline: string[]
   cells: Record<string, string[]>
 }
-export interface PromptSheet {
-  concept: string
-  pos_label?: string
-  neg_label?: string
-  prompts: string[]
-}
+
+export const indexUrl = (m: ModelKey) => `${repoBase(m)}/viewer/index.json`
+export const imageMapUrl = (m: ModelKey, c: Concept) => `${repoBase(m)}/viewer/images/${c}.json`
+export const textUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${repoBase(m)}/viewer/text/${c}/${q}.json`
+export const imageFileUrl = (m: ModelKey, rel: string) => `${repoBase(m)}/generations/${rel}`

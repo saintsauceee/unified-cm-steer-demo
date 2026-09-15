@@ -1,25 +1,34 @@
 import {
-  CONCEPTS, GROUPS, LAYER_CONFIGS, POLES, PROMPT_IDS, QUADRANTS, pid,
-  type Concept, type LayerConfig, type Quadrant,
+  GROUPS, MODELS, POLES, PROMPT_IDS, QUADRANTS, THUMB_SIZES, pid,
+  type Concept, type LayerConfigInfo, type ModelKey, type Quadrant, type ThumbSize,
 } from '../lib/vocab'
 
 export type PromptSel = 'all' | number
 
 interface Props {
-  quad: Quadrant; concept: Concept; config: LayerConfig; prompt: PromptSel
+  model: ModelKey; quad: Quadrant; concept: Concept; config: string; prompt: PromptSel; size: ThumbSize
+  configs: LayerConfigInfo[]; alphas: string[]
   promptLabels: string[] | null
   imageQuad: boolean
-  onChange: (p: Partial<{ quad: Quadrant; concept: Concept; config: LayerConfig; prompt: PromptSel }>) => void
+  onChange: (p: Partial<{ model: ModelKey; quad: Quadrant; concept: Concept; config: string; prompt: PromptSel; size: ThumbSize }>) => void
 }
 
 const QUAD_LABEL: Record<Quadrant, string> = {
   img2img: 'img → img', txt2img: 'txt → img', txt2txt: 'txt → txt', img2txt: 'img → txt',
 }
+const SIZE_LABEL: Record<ThumbSize, string> = { 84: 'Small', 140: 'Medium', 220: 'Large' }
 
-export function Controls({ quad, concept, config, prompt, promptLabels, imageQuad, onChange }: Props) {
+export function Controls({ model, quad, concept, config, prompt, size, configs, alphas, promptLabels, imageQuad, onChange }: Props) {
   const poles = POLES[concept]
+  const range = alphas.length ? `α ${alphas[0].replace('-', '−')} … +${alphas[alphas.length - 1]}` : ''
   return (
     <div className="controls">
+      <label>
+        <span>Model</span>
+        <select value={model} onChange={(e) => onChange({ model: e.target.value as ModelKey })}>
+          {MODELS.map((m) => <option key={m.key} value={m.key}>{m.name}</option>)}
+        </select>
+      </label>
       <label>
         <span>Quadrant</span>
         <select value={quad} onChange={(e) => onChange({ quad: e.target.value as Quadrant })}>
@@ -43,10 +52,18 @@ export function Controls({ quad, concept, config, prompt, promptLabels, imageQua
       </label>
       <label>
         <span>Layer config</span>
-        <select value={config} onChange={(e) => onChange({ config: e.target.value as LayerConfig })}>
-          {LAYER_CONFIGS.map((c) => <option key={c} value={c}>{c}</option>)}
+        <select value={config} onChange={(e) => onChange({ config: e.target.value })} disabled={!configs.length}>
+          {configs.map((c) => <option key={c.key} value={c.key}>{c.key} · {c.layers}</option>)}
         </select>
       </label>
+      {imageQuad && (
+        <label>
+          <span>Thumbnails</span>
+          <select value={size} onChange={(e) => onChange({ size: Number(e.target.value) as ThumbSize })}>
+            {THUMB_SIZES.map((s) => <option key={s} value={s}>{SIZE_LABEL[s]} · {s}px</option>)}
+          </select>
+        </label>
+      )}
       <label className="prompt-label">
         <span>Prompt</span>
         <select
@@ -65,6 +82,7 @@ export function Controls({ quad, concept, config, prompt, promptLabels, imageQua
         <span className="chip neg">−α → {poles.neg}</span>
         <span className="chip base">0 baseline</span>
         <span className="chip pos">+α → {poles.pos}</span>
+        {range && <span className="range">{range}</span>}
       </div>
     </div>
   )
@@ -73,5 +91,3 @@ export function Controls({ quad, concept, config, prompt, promptLabels, imageQua
 function truncate(s: string, n: number) {
   return s.length > n ? s.slice(0, n - 1) + '…' : s
 }
-
-export { CONCEPTS }

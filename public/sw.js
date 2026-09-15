@@ -1,8 +1,8 @@
 /* Service worker: persistent on-disk cache for Hugging Face dataset files.
    - PNGs: cache-first (immutable dataset images).
    - JSON: stale-while-revalidate (serve cached, refresh in background). */
-const CACHE = 'hf-steering-v2'  // bumped for the alpha*v_hat re-run (new images + long prompts)
-const HF_PREFIX = 'https://huggingface.co/datasets/saintsauce/uniar-steering-eval/resolve/main/'
+const CACHE = 'hf-steering-v3'  // bumped for the per-model repos (final sweeps of UniAR, Emu3.5, Liquid)
+const HF_PREFIX = 'https://huggingface.co/datasets/saintsauce/unified-vlm-steering-'  // -uniar / -emu35 / -liquid
 
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', (e) => e.waitUntil((async () => {

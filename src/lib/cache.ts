@@ -1,4 +1,4 @@
-export const CACHE_NAME = 'hf-steering-v2'
+export const CACHE_NAME = 'hf-steering-v3'
 
 export function registerSW() {
   if (!('serviceWorker' in navigator)) return
