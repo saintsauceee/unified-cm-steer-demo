@@ -30,13 +30,6 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
 
   return (
     <div className="grid-wrap">
-      {jf && (
-        <p className="judge-note">
-          Judged by {jf.judge} ({jf.n} pairs{jf.cost_usd !== undefined ? `, $${jf.cost_usd.toFixed(2)}` : ''}): each badge compares the image with its
-          baseline. <b className="D">D</b> shows more of the steered direction, <b className="N">N</b> less, <b className="T">T</b> tie. Click an
-          image for the verdict and reasoning.
-        </p>
-      )}
       <div className="grid-scroll">
         <table className="image-grid" key={viewKey} style={{ '--cell': `${size}px` } as CSSProperties}>
           <thead>
