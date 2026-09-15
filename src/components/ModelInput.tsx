@@ -10,6 +10,9 @@ interface Props {
 const Generated = ({ label }: { label: string }) =>
   <>{' '}<span className="tok-gen tok-steered" title="steered">[{label}]</span></>
 
+const Legend = () =>
+  <div className="mi-legend"><span className="tok-steered mi-swatch">steered</span> steered tokens</div>
+
 /** Image template with special tokens set apart and `{prompt}` filled in (the image prompt itself is never steered). */
 function Template({ template, prompt }: { template: string; prompt: string | null }) {
   const pieces = (s: string, k: string) =>
@@ -47,6 +50,7 @@ export function ModelInput({ name, concept, quad, prompt, inputs, imagePrompts }
             </>
           : <em className="missing">input not available</em>}
         </pre>
+        <Legend />
       </section>
     )
   }
@@ -59,6 +63,7 @@ export function ModelInput({ name, concept, quad, prompt, inputs, imagePrompts }
       </div>
       <div className="mi-label">prompt{prompt === 'all' ? ' · pick one prompt to see it filled in' : ''}</div>
       <pre><Template template={inputs.image.cond} prompt={single} /><Generated label="generated image tokens" /></pre>
+      <Legend />
     </section>
   )
 }
