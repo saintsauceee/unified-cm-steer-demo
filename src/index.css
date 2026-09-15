@@ -111,6 +111,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
   background: var(--panel); color: var(--fg); cursor: pointer; }
 
 /* ---------- exact model input ---------- */
+.chip.steer { color: var(--steer); background: var(--steer-bg); }
 .model-input { margin: 0 0 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .mi-head { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin-bottom: 10px; }
 .mi-head b { color: var(--fg); font-size: 0.9rem; }
