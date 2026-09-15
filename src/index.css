@@ -48,7 +48,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .chip.base { color: var(--base); border-color: var(--base); }
 
 /* ---------- image grid ---------- */
-.grid-wrap { display: flex; justify-content: center; }
+.grid-wrap { display: flex; flex-direction: column; gap: 8px; }
 .grid-scroll { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 4px; }
 .image-grid { border-collapse: separate; border-spacing: 4px; table-layout: fixed; width: max-content; margin: 0 auto; }
 .image-grid th { font-weight: 600; font-size: 0.75rem; color: var(--muted); text-align: center; white-space: nowrap; }
@@ -131,7 +131,7 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
   color: #fff; padding: 0 5px; border-radius: 4px; background: var(--jt); }
 .jbadge.D { background: var(--jd); } .jbadge.N { background: var(--jn); } .jbadge.T { background: var(--jt); }
 .jbadge.big { position: static; display: inline-block; font-size: 0.9rem; padding: 1px 8px; margin-right: 8px; vertical-align: 1px; }
-.judge-note { font-size: 0.8rem; color: var(--muted); margin: 0 0 8px; }
+.judge-note { font-size: 0.8rem; color: var(--muted); margin: 0; }
 .judge-note b, .jsum b { font-family: ui-monospace, Menlo, monospace; }
 .judge-note .D, .jsum .D { color: var(--jd); } .judge-note .N, .jsum .N { color: var(--jn); } .judge-note .T, .jsum .T { color: var(--jt); }
 .jsum-row th { font-weight: 400; }
