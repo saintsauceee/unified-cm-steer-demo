@@ -111,7 +111,6 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
   background: var(--panel); color: var(--fg); cursor: pointer; }
 
 /* ---------- exact model input ---------- */
-.chip.steer { color: var(--steer); background: var(--steer-bg); }
 .model-input { margin: 0 0 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .mi-head { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin-bottom: 10px; }
 .mi-head b { color: var(--fg); font-size: 0.9rem; }
@@ -128,5 +127,3 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .placeholder-prompt { font-style: italic; }
 .mi-legend { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 0.75rem; color: var(--tmpl); }
 .mi-legend .mi-swatch { display: inline-block; width: 22px; height: 12px; padding: 0; }
-.alpha-head .unsteered { font-size: 0.72rem; }
-.gen.steered { text-decoration: underline dotted var(--steer); text-decoration-thickness: 1px; text-underline-offset: 3px; }

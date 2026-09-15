@@ -25,14 +25,13 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
               <div className="alpha-head">
                 <span className={`chip ${cls}`}>{s === 0 ? 'baseline' : `α ${alphaLabel(a)}`}</span>
                 {s !== 0 && <span className="cfg">{config}</span>}
-                {s !== 0 ? <span className="chip steer">steered tokens</span> : <span className="unsteered">not steered</span>}
                 {counts && (
                   <span className="counts" title={`${poles.pos} / ${poles.neg} lexicon hits`}>
                     <b className="pos">{counts.pos}</b> / <b className="neg">{counts.neg}</b>
                   </span>
                 )}
               </div>
-              <p className={`gen${s !== 0 ? ' steered' : ''}`}>
+              <p className="gen">
                 {text
                   ? segment(text, concept).map((seg, i) =>
                       seg.pole ? <mark key={i} className={seg.pole}>{seg.text}</mark> : <span key={i}>{seg.text}</span>)
