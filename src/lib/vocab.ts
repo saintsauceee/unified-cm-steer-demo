@@ -81,3 +81,13 @@ export const inputsUrl = (m: ModelKey) => `${dataBase(m)}/inputs.json`
 export const imageMapUrl = (m: ModelKey, c: Concept) => `${dataBase(m)}/images/${c}.json`
 export const textUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/text/${c}/${q}.json`
 export const imageFileUrl = (m: ModelKey, rel: string) => `${repoBase(m)}/generations/${rel}`
+
+/** One judged pair (steered image vs its alpha = 0 baseline). v = verdict, l = D/N/T, sia = steered image shown as A. */
+export interface JudgeRec { v: 'A' | 'B' | 'Tie'; l: 'D' | 'N' | 'T'; asked: string; opp: string; steer: string; sia: boolean; why: string }
+export interface JudgeFile {
+  judge: string; config: string; n: number; cost_usd?: number
+  cells: Record<string, (JudgeRec | null)[]>
+}
+/** "<model>/<concept>/<quad>" keys that have a judge file, so other views never request one. */
+export const judgeIndexUrl = `${import.meta.env.BASE_URL}data/judge-index.json`
+export const judgeUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/judge/${c}/${q}.json`
