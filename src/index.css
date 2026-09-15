@@ -127,6 +127,6 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
   -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .placeholder-prompt { font-style: italic; }
 .mi-legend { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 0.75rem; color: var(--tmpl); }
-.mi-legend .mi-swatch { font-family: ui-monospace, Menlo, monospace; font-size: 0.72rem; padding: 0 6px; }
+.mi-legend .mi-swatch { display: inline-block; width: 22px; height: 12px; padding: 0; }
 .alpha-head .unsteered { font-size: 0.72rem; }
 .gen.steered { text-decoration: underline dotted var(--steer); text-decoration-thickness: 1px; text-underline-offset: 3px; }

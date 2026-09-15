@@ -11,7 +11,7 @@ const Generated = ({ label }: { label: string }) =>
   <>{' '}<span className="tok-gen tok-steered" title="steered">[{label}]</span></>
 
 const Legend = () =>
-  <div className="mi-legend"><span className="tok-steered mi-swatch">steered</span> steered tokens</div>
+  <div className="mi-legend"><span className="tok-steered mi-swatch" aria-hidden="true" /> steered tokens</div>
 
 /** Image template with special tokens set apart and `{prompt}` filled in (the image prompt itself is never steered). */
 function Template({ template, prompt }: { template: string; prompt: string | null }) {
