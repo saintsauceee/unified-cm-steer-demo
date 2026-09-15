@@ -2,7 +2,7 @@
   color-scheme: light dark;
   --bg: #fafafa; --fg: #1a1a1a; --muted: #6b6b6b; --line: #dedede; --panel: #ffffff;
   --pos: #b45309; --pos-bg: #fde68a; --neg: #1d4ed8; --neg-bg: #bfdbfe; --base: #059669;
-  --ring: #059669;
+  --ring: #059669; --steer: #7e22ce; --steer-bg: #f3e8ff;
   --grid-w: 1030px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 14px; line-height: 1.45;
@@ -11,6 +11,7 @@
   :root {
     --bg: #111214; --fg: #ececec; --muted: #9a9a9a; --line: #2b2c30; --panel: #1a1b1f;
     --pos: #fbbf24; --pos-bg: #4a3405; --neg: #60a5fa; --neg-bg: #14305e; --base: #34d399; --ring: #34d399;
+    --steer: #d8b4fe; --steer-bg: #3b1d5a;
   }
 }
 * { box-sizing: border-box; }
@@ -100,8 +101,30 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .missing { color: var(--muted); }
 .status { color: var(--muted); }
 .status.error { color: #dc2626; }
+.status.notice { color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+.cell button.retry { border: 0; font: inherit; font-size: 0.72rem; cursor: pointer; background: transparent; }
+.cell button.retry:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
 
 
 .cache-status { display: inline-block; margin-top: 4px; }
 .cache-status button { font: inherit; font-size: 0.75rem; padding: 0 6px; border: 1px solid var(--line); border-radius: 4px;
   background: var(--panel); color: var(--fg); cursor: pointer; }
+
+/* ---------- exact model input ---------- */
+.chip.steer { color: var(--steer); background: var(--steer-bg); }
+.model-input { margin: 0 0 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.mi-head { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
+.mi-head b { color: var(--fg); font-size: 0.85rem; }
+.mi-pid { font-family: ui-monospace, Menlo, monospace; }
+.mi-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin: 8px 0 3px; }
+.model-input pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.8rem; line-height: 1.55; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); }
+.mi-note { margin: 8px 0 0; font-size: 0.8rem; line-height: 1.45; }
+.mi-foot { margin: 4px 0 0; font-size: 0.78rem; color: var(--muted); }
+.tok-s { color: var(--muted); background: var(--line); border-radius: 3px; }
+.tok-c { color: var(--muted); }
+.tok-p { color: var(--fg); }
+.tok-steered { color: var(--steer); background: var(--steer-bg); border-radius: 3px; box-shadow: inset 0 -2px 0 var(--steer); }
+.placeholder-prompt { font-style: italic; }
+.alpha-head .unsteered { font-size: 0.72rem; }
+.gen.steered { text-decoration: underline dotted var(--steer); text-decoration-thickness: 1px; text-underline-offset: 3px; }

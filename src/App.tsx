@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import { Controls, type PromptSel } from './components/Controls'
 import { ImageGrid } from './components/ImageGrid'
 import { TextView } from './components/TextView'
+import { ModelInput } from './components/ModelInput'
 import { CacheStatus } from './components/CacheStatus'
+import { RateLimitNotice } from './components/RateLimitNotice'
 import { useFetchJson } from './lib/useFetchJson'
 import {
-  CONCEPTS, MODEL_KEYS, QUADRANTS, THUMB_SIZES, indexUrl, isImageQuad, modelInfo, repoBase, repoPage,
-  type Concept, type ModelKey, type Quadrant, type ThumbSize, type ViewerIndex,
+  CONCEPTS, MODEL_KEYS, QUADRANTS, THUMB_SIZES, indexUrl, inputsUrl, isImageQuad, modelInfo, repoBase, repoPage,
+  type Concept, type ModelInputs, type ModelKey, type Quadrant, type ThumbSize, type ViewerIndex,
 } from './lib/vocab'
 
 interface Sel { model: ModelKey; quad: Quadrant; concept: Concept; config: string; prompt: PromptSel; size: ThumbSize }
@@ -36,6 +38,7 @@ export default function App() {
   const prompt: PromptSel = !imageQuad && sel.prompt === 'all' ? 0 : sel.prompt
 
   const index = useFetchJson<ViewerIndex>(indexUrl(sel.model))
+  const inputs = useFetchJson<ModelInputs>(inputsUrl(sel.model))
   const idx = index.status === 'ok' ? index.data : null
   const configs = idx?.configs ?? []
   // Layer config names differ per model (Emu3.5 uses 8-layer windows): fall back to the model's mid window.
@@ -73,16 +76,22 @@ export default function App() {
         onChange={(p) => setSel((s) => ({ ...s, ...p }))}
       />
       <main>
+        <RateLimitNotice />
         {index.status === 'error' && <p className="status error">Could not load the {info.name} index ({index.error}).</p>}
         {(index.status === 'loading' || index.status === 'idle') && <p className="status">Loading the {info.name} index…</p>}
+        {idx && inputs.status === 'ok' && (
+          <ModelInput name={info.name} concept={sel.concept} quad={quad} prompt={prompt}
+            inputs={inputs.data} imagePrompts={idx.prompts.image[sel.concept]} />
+        )}
         {idx && (isImageQuad(quad)
           ? <ImageGrid model={sel.model} concept={sel.concept} quad={quad} config={config} alphas={alphas}
               prompt={prompt} promptLabels={promptLabels} size={sel.size} />
           : <TextView model={sel.model} concept={sel.concept} quad={sel.quad} config={config} alphas={alphas} prompt={prompt as number} />)}
       </main>
       <footer>
-        Files resolved from <code>{repoBase(sel.model)}</code>. Thumbnails are the full-resolution files scaled down (click one for the
-        original); they load lazily per view and are cached on this device by a service worker; missing cells show a placeholder.
+        Images come from <code>{repoBase(sel.model)}/generations/</code>; the index, inputs and text outputs ship with this page. Thumbnails
+        are the full-resolution files scaled down (click one for the original); they load lazily and are cached on this device by a service
+        worker. Hugging Face allows 3000 downloads per 5 minutes per connection, so fast browsing queues images briefly.
         <br /><CacheStatus refreshKey={`${sel.model}/${sel.quad}/${sel.concept}/${config}/${prompt}`} />
       </footer>
     </div>

@@ -66,7 +66,18 @@ export interface Generations {
   cells: Record<string, string[]>
 }
 
-export const indexUrl = (m: ModelKey) => `${repoBase(m)}/viewer/index.json`
-export const imageMapUrl = (m: ModelKey, c: Concept) => `${repoBase(m)}/viewer/images/${c}.json`
-export const textUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${repoBase(m)}/viewer/text/${c}/${q}.json`
+/** One token of the exact text-generation input: [text, kind (s special, c chat template, p user prompt), steered on the prompt pass]. */
+export type Tok = [string, 's' | 'c' | 'p', 0 | 1]
+/** Exact model inputs per generation modality (viewer/inputs.json). Image templates hold `{prompt}`. */
+export interface ModelInputs {
+  text: { steered: string; decoding: string; prompts: Record<Concept, Tok[][]> }
+  image: { cond: string; uncond: string | null; steered: string; decoding: string }
+}
+
+/** Viewer JSON ships with the site (built by scripts/build_demo_viewer_data.py), so only images count against Hugging Face's rate limit. */
+const dataBase = (m: ModelKey) => `${import.meta.env.BASE_URL}data/${m}/viewer`
+export const indexUrl = (m: ModelKey) => `${dataBase(m)}/index.json`
+export const inputsUrl = (m: ModelKey) => `${dataBase(m)}/inputs.json`
+export const imageMapUrl = (m: ModelKey, c: Concept) => `${dataBase(m)}/images/${c}.json`
+export const textUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/text/${c}/${q}.json`
 export const imageFileUrl = (m: ModelKey, rel: string) => `${repoBase(m)}/generations/${rel}`

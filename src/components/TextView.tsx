@@ -1,4 +1,4 @@
-import { alphaLabel, alphaSign, pid, POLES, textUrl, type Concept, type Generations, type ModelKey, type Quadrant } from '../lib/vocab'
+import { alphaLabel, alphaSign, POLES, textUrl, type Concept, type Generations, type ModelKey, type Quadrant } from '../lib/vocab'
 import { poleCounts, segment } from '../lib/lexicon'
 import { useFetchJson } from '../lib/useFetchJson'
 
@@ -10,15 +10,10 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
   if (gen.status === 'error') return <p className="status error">Could not load generations for {concept}/{quad}: {gen.error}</p>
 
   const d = gen.data
-  const promptText = d.prompts?.[prompt] ?? ''
   const poles = POLES[concept]
 
   return (
     <div className="text-view">
-      <div className="prompt-box">
-        <div className="pid">{pid(prompt)}</div>
-        <div className="ptext">{promptText || <em>(no prompt text)</em>}</div>
-      </div>
       <ol className="alpha-list">
         {alphas.map((a) => {
           const s = alphaSign(a)
@@ -30,13 +25,14 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
               <div className="alpha-head">
                 <span className={`chip ${cls}`}>{s === 0 ? 'baseline' : `α ${alphaLabel(a)}`}</span>
                 {s !== 0 && <span className="cfg">{config}</span>}
+                {s !== 0 ? <span className="chip steer">steered tokens</span> : <span className="unsteered">not steered</span>}
                 {counts && (
                   <span className="counts" title={`${poles.pos} / ${poles.neg} lexicon hits`}>
                     <b className="pos">{counts.pos}</b> / <b className="neg">{counts.neg}</b>
                   </span>
                 )}
               </div>
-              <p className="gen">
+              <p className={`gen${s !== 0 ? ' steered' : ''}`}>
                 {text
                   ? segment(text, concept).map((seg, i) =>
                       seg.pole ? <mark key={i} className={seg.pole}>{seg.text}</mark> : <span key={i}>{seg.text}</span>)
