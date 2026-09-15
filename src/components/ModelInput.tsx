@@ -11,22 +11,26 @@ interface Props {
 const Generated = ({ label }: { label: string }) =>
   <>{' '}<span className="tok-gen tok-steered" title="steered">[{label}]</span></>
 
+/** Newlines shown inline as a \\n token instead of real line breaks, so the input stays compact. */
+const nl = (text: string, key: string): ReactNode[] =>
+  text.split('\n').flatMap((part, i) => (i === 0 ? [part] : [<span key={`${key}n${i}`} className="tok-nl">{'\\n'}</span>, part]))
+
 /** Tokens with each run of consecutive steered tokens merged into one highlight (surrounding whitespace kept outside it). */
 function renderTokens(toks: Tok[]): ReactNode[] {
   const out: ReactNode[] = []
   for (let i = 0; i < toks.length;) {
     if (!toks[i][2]) {
-      out.push(<span key={i} className={`tok-${toks[i][1]}`}>{toks[i][0]}</span>)
+      out.push(<span key={i} className={`tok-${toks[i][1]}`}>{nl(toks[i][0], `t${i}`)}</span>)
       i++
       continue
     }
     let j = i, text = ''
     while (j < toks.length && toks[j][2]) text += toks[j++][0]
     const core = text.trim()
-    if (!core) out.push(<span key={i}>{text}</span>)
+    if (!core) out.push(<span key={i}>{nl(text, `w${i}`)}</span>)
     else {
       const lead = text.slice(0, text.indexOf(core)), trail = text.slice(text.indexOf(core) + core.length)
-      out.push(<span key={i} className="tok-p">{lead}<span className="tok-steered" title="steered">{core}</span>{trail}</span>)
+      out.push(<span key={i} className="tok-p">{nl(lead, `l${i}`)}<span className="tok-steered" title="steered">{core}</span>{nl(trail, `r${i}`)}</span>)
     }
     i = j
   }
@@ -39,7 +43,7 @@ const Legend = () =>
 /** Image template with special tokens set apart and `{prompt}` filled in (the image prompt itself is never steered). */
 function Template({ template, prompt }: { template: string; prompt: string | null }) {
   const pieces = (s: string, k: string) =>
-    s.split(/(<[^<>\s]+>)/).map((x, i) => x && <span key={`${k}${i}`} className={i % 2 ? 'tok-s' : 'tok-c'}>{x}</span>)
+    s.split(/(<[^<>\s]+>)/).map((x, i) => x && <span key={`${k}${i}`} className={i % 2 ? 'tok-s' : 'tok-c'}>{nl(x, `${k}${i}`)}</span>)
   const [before, after] = template.includes('{prompt}') ? template.split('{prompt}') : [template, null]
   return (
     <>
