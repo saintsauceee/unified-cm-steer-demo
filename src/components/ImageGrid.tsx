@@ -1,6 +1,6 @@
 import { useCallback, useState, type CSSProperties } from 'react'
 import {
-  alphaLabel, alphaSign, imageFileUrl, imageMapUrl, judgeIndexUrl, judgeUrl, pid,
+  alphaLabel, alphaSign, imageFileUrl, imageMapUrl, judgeIndexUrl, judgeKey, judgeUrl, pid,
   type Concept, type ImageMap, type ImageQuad, type JudgeFile, type ModelKey,
 } from '../lib/vocab'
 import { useFetchJson } from '../lib/useFetchJson'
@@ -19,9 +19,9 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
   const [open, setOpen] = useState<{ src: string; caption: string; judge?: JudgeView } | null>(null)
   const close = useCallback(() => setOpen(null), [])
   const judgeIndex = useFetchJson<string[]>(judgeIndexUrl)
-  const judged = judgeIndex.status === 'ok' && judgeIndex.data.includes(`${model}/${concept}/${quad}`)
-  const judgeFile = useFetchJson<JudgeFile>(judged ? judgeUrl(model, concept, quad) : null)
-  const jf = judgeFile.status === 'ok' && judgeFile.data.config === config ? judgeFile.data : null
+  const judged = judgeIndex.status === 'ok' && judgeIndex.data.includes(judgeKey(model, concept, quad, config))
+  const judgeFile = useFetchJson<JudgeFile>(judged ? judgeUrl(model, concept, quad, config) : null)
+  const jf = judged && judgeFile.status === 'ok' && judgeFile.data.config === config ? judgeFile.data : null
 
   if (map.status === 'loading' || map.status === 'idle') return <p className="status">Loading the image index…</p>
   if (map.status === 'error') return <p className="status error">Could not load the image index for {concept}: {map.error}</p>

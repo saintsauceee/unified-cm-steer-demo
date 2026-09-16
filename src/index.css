@@ -145,3 +145,9 @@ footer { margin-top: 24px; color: var(--muted); font-size: 0.8rem; word-break: b
 .jv-why { margin: 0; white-space: pre-wrap; word-break: break-word; font: 0.78rem/1.5 ui-monospace, Menlo, monospace; color: #c9ccd4;
   max-height: 26vh; overflow: auto; background: #0f1013; border-radius: 6px; padding: 8px 10px; }
 @media (max-width: 640px) { .jv-pair { grid-template-columns: 1fr; } .jv-pair img { max-height: 40vh; } }
+.jbadge.inline { position: static; display: inline-block; font-size: 0.7rem; padding: 0 6px; }
+.jwhy { margin-top: 6px; font-size: 0.78rem; color: var(--muted); }
+.jwhy summary { cursor: pointer; }
+.jwhy summary b { color: var(--fg); font-weight: 600; }
+.jwhy pre { margin: 6px 0 0; white-space: pre-wrap; word-break: break-word; font: 0.76rem/1.5 ui-monospace, Menlo, monospace; color: var(--fg);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; max-height: 260px; overflow: auto; }

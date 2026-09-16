@@ -85,9 +85,10 @@ export const imageFileUrl = (m: ModelKey, rel: string) => `${repoBase(m)}/genera
 /** One judged pair (steered image vs its alpha = 0 baseline). v = verdict, l = D/N/T, sia = steered image shown as A. */
 export interface JudgeRec { v: 'A' | 'B' | 'Tie'; l: 'D' | 'N' | 'T'; asked: string; opp: string; steer: string; sia: boolean; why: string }
 export interface JudgeFile {
-  judge: string; config: string; n: number; cost_usd?: number
+  judge: string; config: string; n: number; missing?: number
   cells: Record<string, (JudgeRec | null)[]>
 }
-/** "<model>/<concept>/<quad>" keys that have a judge file, so other views never request one. */
+/** "<model>/<concept>/<quad>/<config>" keys that have a judge file, so other views never request one. */
 export const judgeIndexUrl = `${import.meta.env.BASE_URL}data/judge-index.json`
-export const judgeUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/judge/${c}/${q}.json`
+export const judgeKey = (m: ModelKey, c: Concept, q: Quadrant, config: string) => `${m}/${c}/${q}/${config}`
+export const judgeUrl = (m: ModelKey, c: Concept, q: Quadrant, config: string) => `${dataBase(m)}/judge/${c}/${q}/${config}.json`
