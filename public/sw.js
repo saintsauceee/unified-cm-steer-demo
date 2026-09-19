@@ -3,7 +3,7 @@
    - Hugging Face allows anonymous clients 3000 file downloads per 5 minutes per IP; one grid is 220 images. Downloads go
      through a small queue, and a 429 (or a network error) pauses the queue and retries instead of failing the image.
    The viewer's JSON index files ship with the site itself, so they never count against that limit. */
-const CACHE = 'hf-steering-v3'  // per-model repos (final sweeps of UniAR, Emu3.5, Liquid)
+const CACHE = 'hf-steering-v4'  // per-model repos (final sweeps of UniAR, Emu3.5, Liquid)
 const HF_PREFIX = 'https://huggingface.co/datasets/saintsauce/unified-vlm-steering-'  // -uniar / -emu35 / -liquid
 const MAX_PARALLEL = 8
 const MAX_WAIT_MS = 4 * 60 * 1000  // browsers stop a service-worker event after ~5 min; the page retries after that

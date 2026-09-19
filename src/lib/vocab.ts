@@ -76,11 +76,15 @@ export interface ModelInputs {
 }
 
 /** Viewer JSON ships with the site (built by scripts/build_demo_viewer_data.py), so only images count against Hugging Face's rate limit. */
+// bundled JSON keeps a fixed filename, so a browser that cached the 7-concept version would never see a new
+// concept; the build stamp busts it (bump DATA_VERSION whenever public/data changes).
+export const DATA_VERSION = 'c8-color'
 const dataBase = (m: ModelKey) => `${import.meta.env.BASE_URL}data/${m}/viewer`
-export const indexUrl = (m: ModelKey) => `${dataBase(m)}/index.json`
-export const inputsUrl = (m: ModelKey) => `${dataBase(m)}/inputs.json`
-export const imageMapUrl = (m: ModelKey, c: Concept) => `${dataBase(m)}/images/${c}.json`
-export const textUrl = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/text/${c}/${q}.json`
+const v = (u: string) => `${u}?v=${DATA_VERSION}`
+export const indexUrl_raw = (m: ModelKey) => `${dataBase(m)}/index.json`
+export const inputsUrl_raw = (m: ModelKey) => `${dataBase(m)}/inputs.json`
+export const imageMapUrl_raw = (m: ModelKey, c: Concept) => `${dataBase(m)}/images/${c}.json`
+export const textUrl_raw = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/text/${c}/${q}.json`
 export const imageFileUrl = (m: ModelKey, rel: string) => `${repoBase(m)}/generations/${rel}`
 
 /** One judged pair (steered image vs its alpha = 0 baseline). v = verdict, l = D/N/T, sia = steered image shown as A. */
@@ -90,6 +94,12 @@ export interface JudgeFile {
   cells: Record<string, (JudgeRec | null)[]>
 }
 /** "<model>/<concept>/<quad>/<config>" keys that have a judge file, so other views never request one. */
-export const judgeIndexUrl = `${import.meta.env.BASE_URL}data/judge-index.json`
+export const judgeIndexUrl = `${import.meta.env.BASE_URL}data/judge-index.json?v=${DATA_VERSION}`
 export const judgeKey = (m: ModelKey, c: Concept, q: Quadrant, config: string) => `${m}/${c}/${q}/${config}`
-export const judgeUrl = (m: ModelKey, c: Concept, q: Quadrant, config: string) => `${dataBase(m)}/judge/${c}/${q}/${config}.json`
+export const judgeUrl_raw = (m: ModelKey, c: Concept, q: Quadrant, config: string) => `${dataBase(m)}/judge/${c}/${q}/${config}.json`
+
+export const indexUrl = (m: ModelKey) => v(indexUrl_raw(m))
+export const inputsUrl = (m: ModelKey) => v(inputsUrl_raw(m))
+export const imageMapUrl = (m: ModelKey, c: Concept) => v(imageMapUrl_raw(m, c))
+export const textUrl = (m: ModelKey, c: Concept, q: Quadrant) => v(textUrl_raw(m, c, q))
+export const judgeUrl = (m: ModelKey, c: Concept, q: Quadrant, config: string) => v(judgeUrl_raw(m, c, q, config))
