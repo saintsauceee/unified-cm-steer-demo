@@ -14,13 +14,13 @@ export const repoBase = (m: ModelKey) => `${repoPage(m)}/resolve/main`
 export type Group = 'semantic' | 'visual'
 export type Concept =
   | 'emotion' | 'age' | 'cleanness' | 'chaos'
-  | 'size' | 'near_far' | 'spatial_lr'
+  | 'size' | 'near_far' | 'spatial_lr' | 'color'
 export type Quadrant = 'img2img' | 'txt2img' | 'txt2txt' | 'img2txt'
 export type ImageQuad = 'img2img' | 'txt2img'
 
 export const GROUPS: Record<Group, Concept[]> = {
   semantic: ['emotion', 'age', 'cleanness', 'chaos'],
-  visual: ['size', 'near_far', 'spatial_lr'],
+  visual: ['size', 'near_far', 'spatial_lr', 'color'],
 }
 export const CONCEPTS: Concept[] = [...GROUPS.semantic, ...GROUPS.visual]
 
@@ -46,6 +46,7 @@ export const POLES: Record<Concept, { pos: string; neg: string }> = {
   size: { pos: 'bigger', neg: 'smaller' },
   near_far: { pos: 'closer', neg: 'farther' },
   spatial_lr: { pos: 'right', neg: 'left' },
+  color: { pos: 'red', neg: 'blue' },
 }
 
 // ---------- per-model viewer index files (viewer/ in each repo) ----------
