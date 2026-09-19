@@ -32,7 +32,7 @@ export function ImageCell({ src, alt, isBaseline, onOpen, badge }: Props) {
         ? <button type="button" className="placeholder retry" onClick={() => { setAttempt(0); setState('loading') }}>failed · retry</button>
         : <div className="placeholder">retrying…</div>)}
       {state === 'loading' && <div className="skeleton" />}
-      {badge && <span className={`jbadge ${badge}`} title={`judge: ${badge}`}>{badge}</span>}
+      {badge && <span className={`jbadge ${badge}`} title={badge === 'D' ? 'moved toward the steered pole' : badge === 'N' ? 'moved away from it (steering failure, not a judge error)' : 'no clear change'}>{badge}</span>}
     </div>
   )
 }

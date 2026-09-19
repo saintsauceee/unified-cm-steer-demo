@@ -4,7 +4,11 @@ import type { JudgeRec } from '../lib/vocab'
 export interface JudgeView { rec: JudgeRec; steeredSrc: string; baselineSrc: string }
 interface Props { src: string; caption: string; onClose: () => void; judge?: JudgeView }
 
-const READING = { D: 'shows more', N: 'shows less', T: 'shows no clear difference in' } as const
+const READING: Record<string, string> = {
+  D: 'moved toward',            // steering worked
+  N: 'moved AWAY from',         // the judge answered fine; the steering went the other way
+  T: 'showed no clear change in',
+}
 
 export function Lightbox({ src, caption, onClose, judge }: Props) {
   useEffect(() => {
@@ -30,6 +34,7 @@ export function Lightbox({ src, caption, onClose, judge }: Props) {
             <p className="jv-verdict">
               <span className={`jbadge big ${rec.l}`}>{rec.l}</span>
               Verdict <b>{rec.v}</b>: the steered image {READING[rec.l]} <b>{rec.steer}</b>
+              {rec.l === 'N' && <em className="jv-note"> — the judge read the pair correctly; this counts as steering failure, not a judge error.</em>}
             </p>
             <pre className="jv-why">{rec.why || 'No reasoning returned.'}</pre>
           </div>

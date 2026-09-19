@@ -41,12 +41,12 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
             </tr>
             {jf && (
               <tr className="jsum-row">
-                <th className="rowhead">judge</th>
+                <th className="rowhead" title="per alpha: D = moved toward the steered pole, N = moved away from it (steering failure, not a judge error), T = no clear change">judge</th>
                 {alphas.map((a) => {
                   if (alphaSign(a) === 0) return <th key={a} />
                   const recs = (jf.cells[`${config}|${a}`] ?? []).filter((r, p) => r && rows.includes(p))
                   const n = (l: string) => recs.filter((r) => r?.l === l).length
-                  return <th key={a} className="jsum"><b className="D">{n('D')}</b> <b className="N">{n('N')}</b> <b className="T">{n('T')}</b></th>
+                  return <th key={a} className="jsum" title={`${n('D')} moved toward the pole, ${n('N')} moved away, ${n('T')} no clear change (of 20 prompts)`}><b className="D">{n('D')}</b> <b className="N">{n('N')}</b> <b className="T">{n('T')}</b></th>
                 })}
               </tr>
             )}
