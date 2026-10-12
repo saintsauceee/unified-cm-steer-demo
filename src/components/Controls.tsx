@@ -55,6 +55,12 @@ export function Controls({ model, quad, concept, config, prompt, configs, alphas
           {configs.map((c) => <option key={c.key} value={c.key}>{c.key} · {c.layers}</option>)}
         </select>
       </label>
+      <div className="legend">
+        <span className="key neg">−α {poles.neg}</span>
+        <span className="key base">0 baseline</span>
+        <span className="key pos">+α {poles.pos}</span>
+        {range && <span className="range">{range}</span>}
+      </div>
       <label className="prompt-label">
         <span>Prompt</span>
         <select
@@ -64,17 +70,11 @@ export function Controls({ model, quad, concept, config, prompt, configs, alphas
           {imageQuad && <option value="all">All 20 prompts</option>}
           {PROMPT_IDS.map((i) => (
             <option key={i} value={i}>
-              {pid(i)}{promptLabels?.[i] ? ` — ${truncate(promptLabels[i], 70)}` : ''}
+              {pid(i)}{promptLabels?.[i] ? ` — ${truncate(promptLabels[i], 140)}` : ''}
             </option>
           ))}
         </select>
       </label>
-      <div className="legend">
-        <span className="chip neg">−α → {poles.neg}</span>
-        <span className="chip base">0 baseline</span>
-        <span className="chip pos">+α → {poles.pos}</span>
-        {range && <span className="range">{range}</span>}
-      </div>
     </div>
   )
 }

@@ -3,11 +3,10 @@ import { Controls, type PromptSel } from './components/Controls'
 import { ImageGrid } from './components/ImageGrid'
 import { TextView } from './components/TextView'
 import { ModelInput } from './components/ModelInput'
-import { CacheStatus } from './components/CacheStatus'
 import { RateLimitNotice } from './components/RateLimitNotice'
 import { useFetchJson } from './lib/useFetchJson'
 import {
-  CONCEPTS, MODEL_KEYS, QUADRANTS, THUMB_SIZES, indexUrl, inputsUrl, isImageQuad, modelInfo, repoBase, repoPage,
+  CONCEPTS, MODEL_KEYS, QUADRANTS, THUMB_SIZES, indexUrl, inputsUrl, isImageQuad, modelInfo,
   type Concept, type ModelInputs, type ModelKey, type Quadrant, type ThumbSize, type ViewerIndex,
 } from './lib/vocab'
 
@@ -64,11 +63,7 @@ export default function App() {
   return (
     <div className="app">
       <header>
-        <h1>Steering viewer</h1>
-        <p className="sub">
-          {info.name} · live from <a href={repoPage(sel.model)} target="_blank" rel="noreferrer">{info.repo}</a>
-          {' '}· 7 concepts × 4 quadrants × 7 layer configs × 20 prompts × 11 α
-        </p>
+        <h1>Cross-modal steering vectors</h1>
       </header>
       <Controls
         {...sel} config={config} prompt={prompt} configs={configs} alphas={alphas}
@@ -88,12 +83,6 @@ export default function App() {
               prompt={prompt} promptLabels={promptLabels} size={sel.size} />
           : <TextView model={sel.model} concept={sel.concept} quad={sel.quad} config={config} alphas={alphas} prompt={prompt as number} />)}
       </main>
-      <footer>
-        Images come from <code>{repoBase(sel.model)}/generations/</code>; the index, inputs and text outputs ship with this page. Thumbnails
-        are the full-resolution files scaled down (click one for the original); they load lazily and are cached on this device by a service
-        worker. Hugging Face allows 3000 downloads per 5 minutes per connection, so fast browsing queues images briefly.
-        <br /><CacheStatus refreshKey={`${sel.model}/${sel.quad}/${sel.concept}/${config}/${prompt}`} />
-      </footer>
     </div>
   )
 }
