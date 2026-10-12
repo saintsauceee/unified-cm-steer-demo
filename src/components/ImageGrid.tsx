@@ -1,9 +1,10 @@
-import { useCallback, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import {
-  alphaLabel, alphaSign, imageFileUrl, imageMapUrl, judgeIndexUrl, judgeKey, judgeUrl, pid,
+  alphaLabel, alphaSign, imageFileUrl, imageMapUrl, judgeIndexUrl, judgeKey, judgeUrl, pid, spriteUrl,
   type Concept, type ImageMap, type ImageQuad, type JudgeFile, type ModelKey,
 } from '../lib/vocab'
 import { useFetchJson } from '../lib/useFetchJson'
+import { preloadSprites } from '../lib/useSprite'
 import { ImageCell } from './ImageCell'
 import { Lightbox, type JudgeView } from './Lightbox'
 import type { PromptSel } from './Controls'
@@ -22,6 +23,18 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
   const judged = judgeIndex.status === 'ok' && judgeIndex.data.includes(judgeKey(model, concept, quad, config))
   const judgeFile = useFetchJson<JudgeFile>(judged ? judgeUrl(model, concept, quad, config) : null)
   const jf = judged && judgeFile.status === 'ok' && judgeFile.data.config === config ? judgeFile.data : null
+
+  const spriteName = useCallback((cfg: string, a: string) => (alphaSign(a) === 0 ? 'baseline' : `${cfg}_${a}`), [])
+  // Once this view has had a moment to load, fetch the other layer configs of the same concept in the background.
+  const mapData = map.status === 'ok' ? map.data : null
+  useEffect(() => {
+    if (!mapData) return
+    const t = setTimeout(() => {
+      const configs = [...new Set(Object.keys(mapData[quad] ?? {}).map((k) => k.split('|')[0]))].filter((c) => c !== config)
+      preloadSprites(configs.flatMap((c) => alphas.filter((a) => alphaSign(a) !== 0).map((a) => spriteUrl(model, concept, quad, spriteName(c, a)))))
+    }, 2500)
+    return () => clearTimeout(t)
+  }, [mapData, model, concept, quad, config, alphas, spriteName])
 
   if (map.status === 'loading' || map.status === 'idle') return <p className="status">Loading the image index…</p>
   if (map.status === 'error') return <p className="status error">Could not load the image index for {concept}: {map.error}</p>
@@ -67,6 +80,7 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
                   return (
                     <td key={a}>
                       <ImageCell src={src} alt={caption} isBaseline={alphaSign(a) === 0} badge={rec?.l ?? null}
+                        sprite={spriteUrl(model, concept, quad, spriteName(config, a))} tile={p}
                         onOpen={(s) => setOpen({ src: s, caption, judge })} />
                     </td>
                   )

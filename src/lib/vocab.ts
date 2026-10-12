@@ -86,6 +86,11 @@ export const inputsUrl_raw = (m: ModelKey) => `${dataBase(m)}/inputs.json`
 export const imageMapUrl_raw = (m: ModelKey, c: Concept) => `${dataBase(m)}/images/${c}.json`
 export const textUrl_raw = (m: ModelKey, c: Concept, q: Quadrant) => `${dataBase(m)}/text/${c}/${q}.json`
 export const imageFileUrl = (m: ModelKey, rel: string) => `${repoBase(m)}/generations/${rel}`
+/** One WebP per grid column: the 20 prompts as 5 x 4 tiles of 224 px (scripts/build_sprites.py). name = "<config>_<alpha>" or "baseline". */
+export const SPRITE_COLS = 5
+export const SPRITE_ROWS = 4
+export const spriteUrl = (m: ModelKey, c: Concept, q: ImageQuad, name: string) =>
+  `${repoBase(m)}/viewer/sprites/${c}/${q}/${name}.webp`
 
 /** One judged pair (steered image vs its alpha = 0 baseline). v = verdict, l = D/N/T, sia = steered image shown as A. */
 export interface JudgeRec { v: 'A' | 'B' | 'Tie'; l: 'D' | 'N' | 'T'; asked: string; opp: string; steer: string; sia: boolean; why: string }
