@@ -1,5 +1,5 @@
 import {
-  GROUPS, MODELS, POLES, PROMPT_IDS, QUADRANTS, THUMB_SIZES, pid,
+  GROUPS, MODELS, POLES, PROMPT_IDS, QUADRANTS, pid,
   type Concept, type LayerConfigInfo, type ModelKey, type Quadrant, type ThumbSize,
 } from '../lib/vocab'
 
@@ -16,9 +16,8 @@ interface Props {
 const QUAD_LABEL: Record<Quadrant, string> = {
   img2img: 'img → img', txt2img: 'txt → img', txt2txt: 'txt → txt', img2txt: 'img → txt',
 }
-const SIZE_LABEL: Record<ThumbSize, string> = { 84: 'Small', 140: 'Medium', 220: 'Large' }
 
-export function Controls({ model, quad, concept, config, prompt, size, configs, alphas, promptLabels, imageQuad, onChange }: Props) {
+export function Controls({ model, quad, concept, config, prompt, configs, alphas, promptLabels, imageQuad, onChange }: Props) {
   const poles = POLES[concept]
   const range = alphas.length ? `α ${alphas[0].replace('-', '−')} … +${alphas[alphas.length - 1]}` : ''
   return (
@@ -56,14 +55,6 @@ export function Controls({ model, quad, concept, config, prompt, size, configs, 
           {configs.map((c) => <option key={c.key} value={c.key}>{c.key} · {c.layers}</option>)}
         </select>
       </label>
-      {imageQuad && (
-        <label>
-          <span>Thumbnails</span>
-          <select value={size} onChange={(e) => onChange({ size: Number(e.target.value) as ThumbSize })}>
-            {THUMB_SIZES.map((s) => <option key={s} value={s}>{SIZE_LABEL[s]} · {s}px</option>)}
-          </select>
-        </label>
-      )}
       <label className="prompt-label">
         <span>Prompt</span>
         <select

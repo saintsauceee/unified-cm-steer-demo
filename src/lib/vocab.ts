@@ -28,7 +28,7 @@ export const QUADRANTS: Quadrant[] = ['img2img', 'txt2img', 'txt2txt', 'img2txt'
 export const isImageQuad = (q: Quadrant): q is ImageQuad => q === 'img2img' || q === 'txt2img'
 
 export const N_PROMPTS = 20
-export const THUMB_SIZES = [84, 140, 220] as const
+export const THUMB_SIZES = [84] as const   // small only: the grid is for scanning, the lightbox shows the full image
 export type ThumbSize = (typeof THUMB_SIZES)[number]
 export const PROMPT_IDS = Array.from({ length: N_PROMPTS }, (_, i) => i)
 export const pid = (i: number) => `p${String(i).padStart(2, '0')}`

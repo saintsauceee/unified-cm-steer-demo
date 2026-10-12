@@ -26,7 +26,7 @@ function fromHash(): Sel {
     concept: pick('concept', CONCEPTS, 'emotion'),
     config: p.get('config') ?? '',
     prompt,
-    size: (THUMB_SIZES as readonly number[]).includes(size) ? (size as ThumbSize) : 140,
+    size: (THUMB_SIZES as readonly number[]).includes(size) ? (size as ThumbSize) : 84,
   }
 }
 
