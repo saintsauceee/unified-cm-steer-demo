@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  GROUPS, MODELS, POLES, PROMPT_IDS, pid, quadOf, sourceOf, targetOf,
+  GROUPS, MODELS, POLES, PROMPT_IDS, conceptName, pid, quadOf, sourceOf, targetOf,
   type Concept, type LayerConfigInfo, type Modality, type ModelKey, type Quadrant,
 } from '../lib/vocab'
 
@@ -83,7 +83,7 @@ export function Controls({ model, quad, concept, config, prompt, configs, alphas
           <select value={concept} onChange={(e) => onChange({ concept: e.target.value as Concept })}>
             {(Object.keys(GROUPS) as (keyof typeof GROUPS)[]).map((g) => (
               <optgroup key={g} label={g}>
-                {GROUPS[g].map((c) => <option key={c} value={c}>{c} · {POLES[c].neg} ↔ {POLES[c].pos}</option>)}
+                {GROUPS[g].map((c) => <option key={c} value={c}>{conceptName(c)} · {POLES[c].neg} ↔ {POLES[c].pos}</option>)}
               </optgroup>
             ))}
           </select>

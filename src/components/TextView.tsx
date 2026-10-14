@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import {
-  alphaLabel, alphaSign, judgeIndexUrl, judgeKey, judgeUrl, textUrl,
+  alphaLabel, alphaSign, conceptName, judgeIndexUrl, judgeKey, judgeUrl, textUrl,
   type Concept, type Generations, type JudgeFile, type ModelKey, type Quadrant,
 } from '../lib/vocab'
 import { useFetchJson } from '../lib/useFetchJson'
@@ -23,7 +23,7 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
   const judgeFile = useFetchJson<JudgeFile>(judged ? judgeUrl(model, concept, quad, config) : null)
   const jf = judged && judgeFile.status === 'ok' && judgeFile.data.config === config ? judgeFile.data : null
   if (gen.status === 'loading' || gen.status === 'idle') return <p className="status">Loading generations…</p>
-  if (gen.status === 'error') return <p className="status error">Could not load generations for {concept}/{quad}: {gen.error}</p>
+  if (gen.status === 'error') return <p className="status error">Could not load generations for {conceptName(concept)}/{quad}: {gen.error}</p>
 
   const d = gen.data
 

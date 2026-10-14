@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import {
-  alphaLabel, alphaSign, imageFileUrl, imageMapUrl, judgeIndexUrl, judgeKey, judgeUrl, pid, spriteUrl,
+  alphaLabel, alphaSign, conceptName, imageFileUrl, imageMapUrl, judgeIndexUrl, judgeKey, judgeUrl, pid, spriteUrl,
   type Concept, type ImageMap, type ImageQuad, type JudgeFile, type ModelKey,
 } from '../lib/vocab'
 import { useFetchJson } from '../lib/useFetchJson'
@@ -32,7 +32,7 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt }: Prop
   }, [mapData, model, concept, quad, config, alphas, spriteName])
 
   if (map.status === 'loading' || map.status === 'idle') return <p className="status">Loading the image index…</p>
-  if (map.status === 'error') return <p className="status error">Could not load the image index for {concept}: {map.error}</p>
+  if (map.status === 'error') return <p className="status error">Could not load the image index for {conceptName(concept)}: {map.error}</p>
   const m = map.data
   const viewKey = `${model}/${concept}/${quad}/${config}`
 
@@ -66,7 +66,7 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt }: Prop
                 {alphas.map((a) => {
                   const rel = alphaSign(a) === 0 ? m.baseline[quad]?.[p] : m[quad]?.[`${config}|${a}`]?.[p]
                   const src = rel ? imageFileUrl(model, rel) : null
-                  const caption = `${model} · ${concept} · ${quad} · ${alphaSign(a) === 0 ? 'baseline' : `${config} α=${alphaLabel(a)}`} · ${pid(p)}`
+                  const caption = `${model} · ${conceptName(concept)} · ${quad} · ${alphaSign(a) === 0 ? 'baseline' : `${config} α=${alphaLabel(a)}`} · ${pid(p)}`
                   const rec = alphaSign(a) === 0 ? null : (jf?.cells[`${config}|${a}`]?.[p] ?? null)
                   const baseRel = m.baseline[quad]?.[p]
                   const judge = rec && src && baseRel ? { rec, steeredSrc: src, baselineSrc: imageFileUrl(model, baseRel) } : undefined

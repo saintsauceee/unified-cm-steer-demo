@@ -18,7 +18,7 @@ function fromHash(): Sel {
   return {
     model: pick('model', MODEL_KEYS, 'uniar'),
     quad: pick('quad', QUADRANTS, 'img2img'),
-    concept: pick('concept', CONCEPTS, 'emotion'),
+    concept: pick('concept', CONCEPTS, 'chaos'),
     config: p.get('config') ?? '',
     prompt: Math.min(N_PROMPTS - 1, Math.max(0, Number(p.get('prompt')) || 0)),   // old "all" links open prompt 0
   }

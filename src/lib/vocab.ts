@@ -23,6 +23,9 @@ export const GROUPS: Record<Group, Concept[]> = {
   visual: ['size', 'near_far', 'spatial_lr', 'color'],
 }
 export const CONCEPTS: Concept[] = [...GROUPS.semantic, ...GROUPS.visual]
+/** Names shown to readers (the paper's); the keys above are the dataset's file names and stay as they are. */
+const CONCEPT_NAMES: Partial<Record<Concept, string>> = { near_far: 'depth', spatial_lr: 'spatial' }
+export const conceptName = (c: Concept) => CONCEPT_NAMES[c] ?? c
 
 export const QUADRANTS: Quadrant[] = ['img2img', 'txt2img', 'txt2txt', 'img2txt']
 /** A setting is the modality the vector comes from plus the modality it steers ("txt" + "img" = txt2img). */
