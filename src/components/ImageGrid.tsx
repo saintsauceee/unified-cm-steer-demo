@@ -7,16 +7,11 @@ import { useFetchJson } from '../lib/useFetchJson'
 import { preloadSprites } from '../lib/useSprite'
 import { ImageCell } from './ImageCell'
 import { Lightbox, type JudgeView } from './Lightbox'
-import type { PromptSel } from './Controls'
 
-interface Props {
-  model: ModelKey; concept: Concept; quad: ImageQuad; config: string; alphas: string[]; prompt: PromptSel
-  promptLabels: string[] | null; size: number
-}
+interface Props { model: ModelKey; concept: Concept; quad: ImageQuad; config: string; alphas: string[]; prompt: number }
 
-export function ImageGrid({ model, concept, quad, config, alphas, prompt, promptLabels, size }: Props) {
+export function ImageGrid({ model, concept, quad, config, alphas, prompt }: Props) {
   const map = useFetchJson<ImageMap>(imageMapUrl(model, concept))
-  const rows = prompt === 'all' ? Array.from({ length: 20 }, (_, i) => i) : [prompt]
   const [open, setOpen] = useState<{ src: string; caption: string; judge?: JudgeView } | null>(null)
   const close = useCallback(() => setOpen(null), [])
   const judgeIndex = useFetchJson<string[]>(judgeIndexUrl)
@@ -44,10 +39,10 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
   return (
     <div className="grid-wrap">
       <div className="grid-scroll">
-        <table className="image-grid" key={viewKey} style={{ '--cell': `${size}px` } as CSSProperties}>
+        <table className="image-grid" key={viewKey} style={{ '--cols': alphas.length } as CSSProperties}>
           <thead>
             <tr>
-              <th className="rowhead">prompt</th>
+              <th className="rowhead" aria-label="prompt" />
               {alphas.map((a) => (
                 <th key={a} className={alphaSign(a) === 0 ? 'baseline-col' : alphaSign(a) < 0 ? 'neg-col' : 'pos-col'}>{alphaLabel(a)}</th>
               ))}
@@ -57,7 +52,7 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
                 <th className="rowhead" title="per alpha: D = moved toward the steered pole, N = moved away from it (steering failure, not a judge error), T = no clear change">judge</th>
                 {alphas.map((a) => {
                   if (alphaSign(a) === 0) return <th key={a} />
-                  const recs = (jf.cells[`${config}|${a}`] ?? []).filter((r, p) => r && rows.includes(p))
+                  const recs = (jf.cells[`${config}|${a}`] ?? []).filter((r) => r)   // over all 20 prompts
                   const n = (l: string) => recs.filter((r) => r?.l === l).length
                   return <th key={a} className="jsum" title={`${n('D')} moved toward the pole, ${n('N')} moved away, ${n('T')} no clear change (of 20 prompts)`}><b className="D">{n('D')}</b> <b className="N">{n('N')}</b> <b className="T">{n('T')}</b></th>
                 })}
@@ -65,11 +60,9 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt, prompt
             )}
           </thead>
           <tbody>
-            {rows.map((p) => (
+            {[prompt].map((p) => (
               <tr key={p}>
-                <th className="rowhead" title={promptLabels?.[p] ?? ''}>
-                  <div className="pid">{pid(p)}</div>
-                </th>
+                <th className="rowhead"><div className="pid">{pid(p)}</div></th>
                 {alphas.map((a) => {
                   const rel = alphaSign(a) === 0 ? m.baseline[quad]?.[p] : m[quad]?.[`${config}|${a}`]?.[p]
                   const src = rel ? imageFileUrl(model, rel) : null

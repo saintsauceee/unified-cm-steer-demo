@@ -25,11 +25,16 @@ export const GROUPS: Record<Group, Concept[]> = {
 export const CONCEPTS: Concept[] = [...GROUPS.semantic, ...GROUPS.visual]
 
 export const QUADRANTS: Quadrant[] = ['img2img', 'txt2img', 'txt2txt', 'img2txt']
+/** A setting is the modality the vector comes from plus the modality it steers ("txt" + "img" = txt2img). */
+export type Modality = 'txt' | 'img'
+export const sourceOf = (q: Quadrant) => q.split('2')[0] as Modality
+export const targetOf = (q: Quadrant) => q.split('2')[1] as Modality
+export const quadOf = (source: Modality, target: Modality) => `${source}2${target}` as Quadrant
+/** The sweep's strongest strength on each side is left out of the viewer (its outputs are mostly broken). */
+export const shownAlphas = (alphas: string[]) => alphas.slice(1, -1)
 export const isImageQuad = (q: Quadrant): q is ImageQuad => q === 'img2img' || q === 'txt2img'
 
 export const N_PROMPTS = 20
-export const THUMB_SIZES = [84] as const   // small only: the grid is for scanning, the lightbox shows the full image
-export type ThumbSize = (typeof THUMB_SIZES)[number]
 export const PROMPT_IDS = Array.from({ length: N_PROMPTS }, (_, i) => i)
 export const pid = (i: number) => `p${String(i).padStart(2, '0')}`
 
