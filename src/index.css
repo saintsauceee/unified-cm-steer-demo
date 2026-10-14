@@ -168,3 +168,7 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
 
 /* on phones the control bar (with the full prompt) is too tall to stay pinned over the results */
 @media (max-width: 700px) { .controls { position: static; } }
+
+.judge-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; font-size: 0.8rem; color: var(--muted); }
+.judge-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.judge-legend .jl-title { font-size: 0.68rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }

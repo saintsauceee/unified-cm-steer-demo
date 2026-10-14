@@ -6,6 +6,7 @@ import {
 import { useFetchJson } from '../lib/useFetchJson'
 import { preloadSprites } from '../lib/useSprite'
 import { ImageCell } from './ImageCell'
+import { JudgeLegend } from './JudgeLegend'
 import { Lightbox, type JudgeView } from './Lightbox'
 
 interface Props { model: ModelKey; concept: Concept; quad: ImageQuad; config: string; alphas: string[]; prompt: number }
@@ -38,6 +39,7 @@ export function ImageGrid({ model, concept, quad, config, alphas, prompt }: Prop
 
   return (
     <div className="grid-wrap">
+      {jf && <JudgeLegend />}
       <div className="grid-scroll">
         <table className="image-grid" key={viewKey} style={{ '--cols': alphas.length } as CSSProperties}>
           <thead>

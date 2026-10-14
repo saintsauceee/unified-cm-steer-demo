@@ -4,6 +4,7 @@ import {
   type Concept, type Generations, type JudgeFile, type ModelKey, type Quadrant,
 } from '../lib/vocab'
 import { useFetchJson } from '../lib/useFetchJson'
+import { JudgeLegend } from './JudgeLegend'
 
 /** Each run of newlines (and the spaces around them) becomes one inline token, so degenerate outputs stay compact. */
 function compactNewlines(text: string): ReactNode[] {
@@ -29,6 +30,7 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
 
   return (
     <div className="text-view">
+      {jf && <JudgeLegend />}
       <ol className="alpha-list">
         {alphas.map((a) => {
           const s = alphaSign(a)
