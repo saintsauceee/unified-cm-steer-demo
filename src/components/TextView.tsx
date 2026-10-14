@@ -53,7 +53,7 @@ export function TextView({ model, concept, quad, config, alphas, prompt }: Props
                 <details className="jwhy">
                   <summary>
                     Judge: asked which is more <b>{rec.asked}</b> (steered text shown as {rec.sia ? 'A' : 'B'}), verdict <b>{rec.v}</b>, so the
-                    steered text {rec.l === 'D' ? 'moved toward' : rec.l === 'N' ? 'moved AWAY from' : 'showed no clear change in'} <b>{rec.steer}</b>{rec.l === 'N' ? ' (steering failure, not a judge error)' : ''}
+                    steered text {rec.l === 'D' ? 'moved toward' : rec.l === 'N' ? 'moved AWAY from' : 'showed no clear change in'} <b>{rec.steer}</b>
                   </summary>
                   <pre>{rec.why || 'No reasoning returned.'}</pre>
                 </details>

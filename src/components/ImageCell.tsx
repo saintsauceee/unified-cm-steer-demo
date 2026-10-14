@@ -24,7 +24,7 @@ export function ImageCell({ src, alt, isBaseline, onOpen, badge, sprite = null, 
   }, [state, attempt])
 
   if (!src) return <div className={['cell', isBaseline ? 'baseline' : '', 'error'].join(' ')} title={alt}><div className="placeholder">no file</div></div>
-  const badgeEl = badge && <span className={`jbadge ${badge}`} title={badge === 'D' ? 'moved toward the steered pole' : badge === 'N' ? 'moved away from it (steering failure, not a judge error)' : 'no clear change'}>{badge}</span>
+  const badgeEl = badge && <span className={`jbadge ${badge}`} title={badge === 'D' ? 'moved toward the steered direction' : badge === 'N' ? 'moved away from it' : 'no clear change'}>{badge}</span>
   if (sprite && sp !== 'error') {
     const style: CSSProperties = sp === 'ok' ? {
       backgroundImage: `url("${sprite}")`,

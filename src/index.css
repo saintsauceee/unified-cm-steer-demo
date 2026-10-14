@@ -25,17 +25,17 @@ html, body { margin: 0; background: var(--bg); color: var(--fg); }
 a { color: inherit; }
 code { font-size: 0.85em; }
 
-.app { width: 100%; max-width: 1760px; margin: 0 auto; padding: 28px clamp(16px, 3vw, 40px) 48px; }
-header { margin-bottom: 18px; }
+.app { width: 100%; max-width: 1760px; margin: 0 auto; padding: 40px clamp(20px, 4vw, 56px) 72px; }
+header { margin-bottom: 28px; }
 header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2rem; line-height: 1.1; letter-spacing: -0.005em; text-wrap: balance; }
 
 .controls {
-  display: flex; flex-direction: column; gap: 12px;
-  padding: 12px 0 14px; border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line-strong); background: var(--bg);
-  position: sticky; top: 0; z-index: 5; margin-bottom: 16px; width: 100%;
+  display: flex; flex-direction: column; gap: 20px;
+  padding: 20px 0 22px; border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line-strong); background: var(--bg);
+  position: sticky; top: 0; z-index: 5; margin-bottom: 28px; width: 100%;
 }
-.control-row { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; }
-.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.control-row { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .field-label { font-size: 0.68rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .controls select {
   font: inherit; font-size: 0.9rem; color: var(--fg); background: var(--panel); border: 1px solid var(--line-strong);
@@ -54,9 +54,9 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
 .prompt-field { position: relative; width: 100%; }
 .prompt-button { display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left; font: inherit; font-size: 0.9rem;
   color: var(--fg); background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r);
-  padding: 8px 36px 8px 10px; cursor: pointer; position: relative; line-height: 1.45; }
+  padding: 12px 40px 12px 14px; cursor: pointer; position: relative; line-height: 1.5; }
 .prompt-button:hover { border-color: var(--fg); }
-.prompt-button .caret { position: absolute; right: 12px; top: 14px; width: 7px; height: 7px; border-right: 1.5px solid var(--muted);
+.prompt-button .caret { position: absolute; right: 16px; top: 18px; width: 7px; height: 7px; border-right: 1.5px solid var(--muted);
   border-bottom: 1.5px solid var(--muted); transform: rotate(45deg); }
 .ppid { font-family: var(--mono); color: var(--muted); flex: none; padding-top: 1px; }
 .ptext { white-space: normal; overflow-wrap: anywhere; }
@@ -64,11 +64,11 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
   background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r); box-shadow: 0 8px 24px rgba(0,0,0,.18);
   max-height: min(70vh, 640px); overflow-y: auto; }
 .prompt-list button { display: flex; gap: 12px; width: 100%; text-align: left; font: inherit; font-size: 0.86rem; line-height: 1.45;
-  color: var(--fg); background: none; border: 0; padding: 8px 12px; cursor: pointer; }
+  color: var(--fg); background: none; border: 0; padding: 12px 16px; cursor: pointer; }
 .prompt-list li + li button { border-top: 1px solid var(--line); }
 .prompt-list button:hover { background: var(--bg); }
 .prompt-list [aria-selected="true"] button { background: var(--bg); box-shadow: inset 3px 0 0 var(--fg); }
-.legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-left: auto; min-height: 34px; font-size: 0.8rem; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin-left: auto; min-height: 34px; font-size: 0.8rem; }
 .legend .key { display: inline-flex; align-items: center; gap: 6px; }
 .legend .key::before { content: ""; width: 10px; height: 10px; display: inline-block; }
 .legend .key.neg { color: var(--neg); } .legend .key.neg::before { background: var(--neg); }
@@ -82,10 +82,10 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
 .chip.base { color: var(--base); border-color: var(--line-strong); }
 
 /* ---------- image grid ---------- */
-.grid-wrap { display: flex; flex-direction: column; gap: 8px; }
-.grid-scroll { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); padding: 8px 6px; }
-.image-grid { border-collapse: separate; border-spacing: 6px; table-layout: fixed; width: 100%; min-width: calc(var(--cols, 9) * 110px + 56px); }
-.image-grid th { font-family: var(--mono); font-weight: 500; font-size: 0.8rem; color: var(--muted); text-align: center; white-space: nowrap; padding-bottom: 3px; }
+.grid-wrap { display: flex; flex-direction: column; gap: 16px; }
+.grid-scroll { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); padding: 20px 20px 24px; }
+.image-grid { border-collapse: separate; border-spacing: 10px 8px; table-layout: fixed; width: 100%; min-width: calc(var(--cols, 9) * 110px + 56px); }
+.image-grid th { font-family: var(--mono); font-weight: 500; font-size: 0.8rem; color: var(--muted); text-align: center; white-space: nowrap; padding-bottom: 6px; }
 .image-grid th.pos-col { color: var(--pos); }
 .image-grid th.neg-col { color: var(--neg); }
 .image-grid th.baseline-col { color: var(--base); }
@@ -117,19 +117,19 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
   border: none; color: #fff; cursor: pointer; }
 
 /* ---------- text view ---------- */
-.text-view { display: flex; flex-direction: column; gap: 12px; }
+.text-view { display: flex; flex-direction: column; gap: 16px; }
 .prompt-box { display: flex; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r);
   background: var(--panel); }
 .prompt-box .pid { font-family: var(--mono); color: var(--muted); }
-.alpha-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.alpha-row { padding: 10px 12px; border: 1px solid var(--line); border-left-width: 4px; border-radius: var(--r);
+.alpha-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.alpha-row { padding: 16px 20px; border: 1px solid var(--line); border-left-width: 4px; border-radius: var(--r);
   background: var(--panel); }
 .alpha-row.pos { border-left-color: var(--pos); }
 .alpha-row.neg { border-left-color: var(--neg); }
 .alpha-row.base { border-left-color: var(--base); }
-.alpha-head { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; font-size: 0.8rem; color: var(--muted); }
+.alpha-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; font-size: 0.8rem; color: var(--muted); }
 .alpha-head .cfg { font-family: var(--mono); }
-.gen { margin: 0; white-space: pre-wrap; }
+.gen { margin: 0; white-space: pre-wrap; line-height: 1.6; max-width: 120ch; }
 .missing { color: var(--muted); }
 .status { color: var(--muted); }
 .status.error { color: #dc2626; }
@@ -160,7 +160,7 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
   max-height: 26vh; overflow: auto; background: #0f1013; border-radius: var(--r); padding: 8px 10px; }
 @media (max-width: 640px) { .jv-pair { grid-template-columns: 1fr; } .jv-pair img { max-height: 40vh; } }
 .jbadge.inline { position: static; display: inline-block; font-size: 0.7rem; padding: 0 6px; }
-.jwhy { margin-top: 6px; font-size: 0.78rem; color: var(--muted); }
+.jwhy { margin-top: 10px; font-size: 0.78rem; color: var(--muted); }
 .jwhy summary { cursor: pointer; }
 .jwhy summary b { color: var(--fg); font-weight: 600; }
 .jwhy pre { margin: 6px 0 0; white-space: pre-wrap; word-break: break-word; font: 0.76rem/1.5 var(--mono); color: var(--fg);
@@ -169,6 +169,7 @@ header h1 { margin: 0; font-family: var(--cond); font-weight: 600; font-size: 2r
 /* on phones the control bar (with the full prompt) is too tall to stay pinned over the results */
 @media (max-width: 700px) { .controls { position: static; } }
 
-.judge-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; font-size: 0.8rem; color: var(--muted); }
+.judge-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-size: 0.8rem; color: var(--muted); }
 .judge-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .judge-legend .jl-title { font-size: 0.68rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+@media (max-width: 700px) { .grid-scroll { padding: 12px; } .alpha-row { padding: 12px 14px; } }

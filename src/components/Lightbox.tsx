@@ -34,7 +34,6 @@ export function Lightbox({ src, caption, onClose, judge }: Props) {
             <p className="jv-verdict">
               <span className={`jbadge big ${rec.l}`}>{rec.l}</span>
               Verdict <b>{rec.v}</b>: the steered image {READING[rec.l]} <b>{rec.steer}</b>
-              {rec.l === 'N' && <em className="jv-note"> — the judge read the pair correctly; this counts as steering failure, not a judge error.</em>}
             </p>
             <pre className="jv-why">{rec.why || 'No reasoning returned.'}</pre>
           </div>
