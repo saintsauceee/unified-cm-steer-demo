@@ -1,0 +1,39 @@
+/* Animated Figure 1: a fixed 1746 x 886 stage (the paper figure's pixel grid), scaled to fit the window. */
+@font-face { font-family: "DejaVu Sans"; src: url("/fig1/DejaVuSans.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "DejaVu Sans"; src: url("/fig1/DejaVuSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: block; }
+
+:root {
+  --pos: #e69f00; --neg: #0072b2; --acc: #cc3311; --ink: #333333; --black: #111111; --card: #f3f3f0; --page: #ffffff;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; background: var(--page); overflow: hidden; }
+
+.f1-viewport { position: relative; width: 100%; height: 100%; cursor: pointer; }
+.f1-stage {
+  position: absolute; left: 0; top: 0; width: 1746px; height: 886px; transform-origin: 0 0;
+  font-family: "DejaVu Sans", Verdana, "Bitstream Vera Sans", sans-serif; color: var(--black);
+}
+.f1-stage .abs { position: absolute; }
+.f1-card { position: absolute; background: var(--card); border-radius: 16px; }
+.f1-center { transform: translate(-50%, -50%); white-space: pre; text-align: center; line-height: 1.12; }
+.f1-left { transform: translateY(-50%); white-space: pre; line-height: 1.22; }
+.f1-step { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #222;
+  color: #fff; font-weight: 700; font-size: 21px; }
+.f1-box { position: absolute; border: 3px solid; background: #fff; overflow: hidden; }
+.f1-box canvas, .f1-box img { display: block; width: 100%; height: 100%; }
+.f1-lines { position: absolute; white-space: pre; }
+.f1-word { transition: none; }
+.f1-note { position: absolute; font-weight: 700; font-size: 13px; line-height: 1.12; white-space: pre; }
+.f1-svg { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+
+.f1-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 12px;
+  padding: 8px max(16px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  font: 12px/1 "DejaVu Sans", Verdana, sans-serif; color: #555; opacity: 0; transition: opacity .25s;
+}
+.f1-viewport:hover .f1-bar, .f1-bar:focus-within { opacity: 1; }
+.f1-bar button { font: inherit; border: 1px solid #bbb; background: #fff; color: #222; padding: 4px 10px; border-radius: 3px; cursor: pointer; }
+.f1-bar button:focus-visible { outline: 2px solid var(--neg); outline-offset: 2px; }
+.f1-track { flex: 1; height: 3px; background: #e4e4e0; position: relative; }
+.f1-track span { position: absolute; left: 0; top: 0; bottom: 0; background: #333; }
